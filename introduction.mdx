@@ -1,71 +1,78 @@
 ---
-title: Introduction
+title: "Introduction"
 description: "Welcome to Lukittu's documentation! Here you'll find everything you need to get started licensing your software."
 ---
 
-<img
-  className="block dark:hidden"
-  src="/images/hero-light.png"
-  alt="Hero Light"
-/>
-<img
-  className="hidden dark:block"
-  src="/images/hero-dark.png"
-  alt="Hero Dark"
-/>
 
-## Setting up
 
-The first step to world-class documentation is setting up your editing environments.
+<img alt="Hero Dark" classname="hidden dark:block" src="/images/hero-dark.png" />
 
-<CardGroup cols={2}>
-  <Card
-    title="Edit Your Docs"
-    icon="pen-to-square"
-    href="https://mintlify.com/docs/quickstart"
-  >
-    Get your docs set up locally for easy development
-  </Card>
-  <Card
-    title="Preview Changes"
-    icon="image"
-    href="https://mintlify.com/docs/development"
-  >
-    Preview your changes before you push to make sure they're perfect
-  </Card>
-</CardGroup>
+## What is Lukittu?
 
-## Make it yours
+Lukittu is an advanced software licensing and distribution system designed to protect proprietary software from unauthorized sharing and misuse. While cloud-based solutions are on the rise, a significant amount of software still operates on clients' machines, bringing unique security challenges.
 
-Update your docs to your brand and add valuable content for the best user conversion.
+For paid proprietary software, one of the main concerns is preventing users from illegally distributing the software or repurposing its code for their own solutions. This ongoing battle is often addressed through techniques like code obfuscation—making the client-facing code difficult to reverse engineer. However, obfuscation alone doesn't prevent users from sharing the software.
 
-<CardGroup cols={2}>
-  <Card
-    title="Customize Style"
-    icon="palette"
-    href="https://mintlify.com/docs/settings/global"
-  >
-    Customize your docs to your company's colors and brands
-  </Card>
-  <Card
-    title="Reference APIs"
-    icon="code"
-    href="https://mintlify.com/docs/api-playground/openapi"
-  >
-    Automatically generate endpoints from an OpenAPI spec
-  </Card>
-  <Card
-    title="Add Components"
-    icon="screwdriver-wrench"
-    href="https://mintlify.com/docs/components/accordion"
-  >
-    Build interactive features and designs to guide your users
-  </Card>
-  <Card
-    title="Get Inspiration"
-    icon="stars"
-    href="https://mintlify.com/customers"
-  >
-    Check out our showcase of our favorite documentation
-  </Card>
-</CardGroup>
+This is where Lukittu steps in. By introducing a **licensing layer** on top of the software, Lukittu ensures that only users with valid license keys can access and use the software. This added protection enhances security and provides several other benefits, such as offering **insights into actual software usage**.
+
+While no solution is 100% foolproof, combining **strong obfuscation** with an **effective software licensing system** provides a robust defense against unauthorized software distribution and misuse.
+
+## Building Your Own Licensing System vs Using Lukittu
+
+When considering how to protect your proprietary software, you have two main options: **building your own licensing system** or using a ready-made solution like **Lukittu**. Below, we highlight the pros and cons of each approach to help you make an informed decision.
+
+### Building Your Own Licensing System
+
+<Note>
+  Custom licensing systems offer maximum control but require significant resources to develop and maintain.
+</Note>
+
+#### Advantages
+
+* **Customization:** Full control over the licensing process, tailoring it to your software's needs.
+
+* **Ownership:** You own and control the system, reducing reliance on third parties.
+
+### Challenges
+
+* **Time and Complexity:** Developing a robust system is time-consuming and requires specialized knowledge.
+
+* **Ongoing Maintenance:** Security updates and system improvements require continuous effort and resources.
+
+* **Cost:** The development and maintenance of a custom solution can be expensive.
+
+### Using Lukittu
+
+#### Advantages
+
+* **Quick Setup:** Lukittu provides a pre-built, scalable licensing system that integrates easily into your software.
+
+* **Security:** Regular updates and built-in protection against piracy and unauthorized sharing.
+
+* **Insights:** Gain valuable usage analytics and track activations.
+
+* **Cost-Effective:** Lukittu's subscription-based model saves on the upfront costs and ongoing maintenance of a custom system.
+
+#### Challenges
+
+* **Less Customization:** While highly configurable, Lukittu may not offer the level of customization of a fully custom-built system.
+
+* **Third-Party Dependency:** Using Lukittu means relying on an external service, though it's backed by strong support and security.
+
+### Recommendations
+
+<Warning>
+  Consider your team size and resources carefully when making this decision. What works for a large enterprise may not be suitable for an indie developer.
+</Warning>
+
+#### For Smaller Indie Developers
+
+Building your own licensing system should be carefully considered. It might not be worth the significant time, cost, and complexity involved unless you have very specific needs or the resources to support long-term development and maintenance.
+
+#### For Large Enterprises
+
+A custom-built licensing system can be more beneficial, as it offers greater control and scalability, aligning with the complex needs of large organizations. Custom systems are often better suited to handle unique licensing models and tight integration with existing enterprise systems.
+
+### Conclusion
+
+For most developers, **Lukittu** offers a fast, secure, and cost-effective solution to software licensing. It saves time and resources while providing strong protection and valuable usage insights. If you have specific licensing requirements or prefer complete control, building your own system might be the right choice, but it comes with higher costs and complexity.
