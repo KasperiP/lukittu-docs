@@ -1,0 +1,88 @@
+---
+title: "Stripe integration"
+description: "Lukittu supports Stripe by automatically delivering licenses to customers via email upon purchase."
+---
+
+## Implementation steps
+
+Follow these steps to configure licensing for the products you sell using Stripe:
+
+1. Create a product in the Lukittu platform.
+
+2. Create the same product in the Stripe dashboard.
+
+3. Add custom attributes to the product's metadata.
+
+4. Set up a webhook endpoint.
+
+5. Add the restricted API key and webhook secret from Stripe to your Lukittu platform Stripe integration.
+
+## Creating a Product in the Lukittu Platform
+
+1. Navigate to the **Products** page and click **Add Product**.
+
+2. Enter a name for your product and click **Save**.
+
+3. Open the page for the newly created product and copy the product's **ID**.
+
+Here’s an improved version of your documentation steps, formatted in Markdown for clarity:
+
+## Creating a Stripe Product for Lukittu
+
+Follow these steps to create and configure a Stripe product for use with Lukittu:
+
+### Steps to Create a Stripe Product
+
+1. **Access the Stripe Dashboard**
+   Navigate to the **Product Catalog** section on your Stripe dashboard.
+
+2. **Add a Product**
+
+   * Click the **Add a Product** button.
+
+   * Enter a product name.
+
+     * **Tip:** Use the same name as your Lukittu product for consistency and easier identification.
+
+3. **Locate Metadata Options**
+
+   * Depending on your device, you should see a **More Options** dropdown.
+
+   * Open the dropdown and locate the **Metadata** section.
+
+     * **Note:** Metadata allows you to add custom data to your Stripe product. Lukittu uses this metadata to map Stripe products to its backend.
+
+### Required Metadata for Lukittu
+
+Add the following metadata key-value pairs to your product:
+
+| **Key**      | **Description**                                        |
+| ------------ | ------------------------------------------------------ |
+| `product_id` | Your Lukittu product ID (required for identification). |
+
+### Optional Metadata for Lukittu
+
+The following metadata keys are optional and can be added as needed:
+
+| **Key**            | **Type**                   | **Description**                                                                                   |
+| ------------------ | -------------------------- | :------------------------------------------------------------------------------------------------ |
+| `ip_limit`         | Number                     | Maximum number of IPs allowed.                                                                    |
+| `seats`            | Number                     | Number of concurrent users allowed.                                                               |
+| `expiration_days`  | Number                     | Number of days until the license expires.                                                         |
+| `expiration_start` | `ACTIVATION` or `CREATION` | Determines when expiration starts (default: `CREATION`). Applicable if `expiration_days` is used. |
+
+### Notes on Expiration and Subscriptions
+
+* **For Subscription-Based Products**
+  Do not use any expiration-related metadata (`expiration_days`, `expiration_start`).
+
+  * **Why:** Lukittu automatically handles license expiration for subscription-based products.
+
+  * If a payment is not received, the license will expire automatically at the end of the billing period.
+
+* **For One-Time Payment Products**
+  Expiration metadata can be used as outlined above to define license durations.
+
+## Adding Stripe webhook
+
+Search webhooks on your Stripe dashboard search and create a new event destination. Set the endpoint URL to [**https://app.lukittu.com/api/v1/integrations/stripe?teamId=YOUR\_TEAM\_ID**](https://app.lukittu.com/api/v1/integrations/stripe?teamId=YOUR_TEAM_ID) **where YOUR\_TEAM\_ID is your Lukittu team's id. You can find that on Lukittu dashboard team => settings page.**
