@@ -119,3 +119,62 @@ Follow these steps to set up a webhook for Lukittu in Stripe:
    - Once saved, Stripe will generate a **Signing Secret** for the webhook.  
      - The signing secret starts with `whsec_`.  
    - **Note:** You will need this signing secret to complete the Stripe integration in Lukittu.
+
+## Adding a Restricted API Key to Your Lukittu Platform Account
+
+Follow these steps to create and add a restricted API key from Stripe to your Lukittu account:
+
+### Steps to Create a Restricted API Key
+
+1. **Navigate to API Keys in Stripe**  
+   - Go to the **API Keys** section on your Stripe dashboard.
+
+2. **Create a New Restricted Key**  
+   - Click **Create Restricted Key**.  
+   - In the dialog:  
+     - **Purpose:** Select *"Providing this key to another website."*  
+     - **Name:** Enter a name for the key (e.g., `Lukittu`).  
+     - **URL:** Set the URL to:  
+       ```
+       https://app.lukittu.com
+       ```
+
+3. **Create and Copy the Key**  
+   - Click **Create Restricted Key**.  
+   - Copy the generated key.  
+
+4. **Add the Key to Lukittu**  
+   - Log in to your Lukittu dashboard.  
+   - Go to the **Stripe Integration** section.  
+   - Paste the copied API key into the appropriate field to complete the integration.
+   Here’s an improved and polished version of your instructions:
+
+## Finishing Touches
+
+With your restricted API key and webhook signing secret ready, follow these final steps to complete your Stripe integration:
+
+### Setting Up Stripe Integration in Lukittu
+
+1. **Navigate to the Integrations Section**  
+   - Log in to your Lukittu dashboard.  
+   - Go to **Integrations** and select **Stripe Integration**.
+
+2. **Enter API Key and Webhook Signing Secret**  
+   - Provide the **restricted API key** you created earlier.  
+   - Enter the **webhook signing secret** (starting with `whsec_`) from the Stripe webhook configuration.
+
+3. **Verify the Integration**  
+   - If everything was set up correctly, your Stripe integration should now be fully functional.  
+   - You can start generating payment links for your Stripe products and selling your software!
+
+## Testing Your Integration (Optional but Recommended)
+
+- **Switch to Test Mode in Stripe**  
+  - Enable **Test Mode** on your Stripe dashboard.  
+  - Repeat the steps to set up API keys, webhooks, and products in this isolated environment.
+
+- **Test Transactions**  
+  - Use Stripe's test credit cards to simulate payments and validate your integration.
+
+- **Transition to Production**  
+  - Once testing is complete and successful, replicate the setup in **Live Mode** to start selling.
