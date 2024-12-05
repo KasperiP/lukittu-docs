@@ -83,6 +83,39 @@ The following metadata keys are optional and can be added as needed:
 * **For One-Time Payment Products**
   Expiration metadata can be used as outlined above to define license durations.
 
-## Adding Stripe webhook
+## Adding a Stripe Webhook
 
-Search webhooks on your Stripe dashboard search and create a new event destination. Set the endpoint URL to [**https://app.lukittu.com/api/v1/integrations/stripe?teamId=YOUR\_TEAM\_ID**](https://app.lukittu.com/api/v1/integrations/stripe?teamId=YOUR_TEAM_ID) **where YOUR\_TEAM\_ID is your Lukittu team's id. You can find that on Lukittu dashboard team => settings page.**
+Follow these steps to set up a webhook for Lukittu in Stripe:
+
+### Steps to Add a Webhook
+
+1. **Search for Webhooks**  
+   - Use the search bar on your Stripe dashboard to search for **Webhooks**.
+
+2. **Create a New Event Destination**  
+   - Click **Add endpoint** (or similar option) to create a new webhook.  
+   - Set the **Endpoint URL** to:  
+     ```
+     https://app.lukittu.com/api/v1/integrations/stripe?teamId=YOUR_TEAM_ID
+     ```  
+     Replace `YOUR_TEAM_ID` with your Lukittu team's ID.  
+     - **How to Find Your Team ID:**  
+       - Go to the Lukittu dashboard.  
+       - Navigate to **Team** → **Settings** to locate your team ID.
+
+3. **Configure Webhook Events**  
+   - Select **Listen to events on your account**.  
+   - Add the following events to the webhook:  
+     - `invoice.paid`  
+     - `customer.subscription.deleted`  
+     - `customer.subscription.created`  
+     - `customer.subscription.updated`  
+     - `checkout.session.completed`  
+
+4. **Save the Webhook**  
+   - After configuring the events, save the newly created webhook.
+
+5. **Retrieve the Webhook Signing Secret**  
+   - Once saved, Stripe will generate a **Signing Secret** for the webhook.  
+     - The signing secret starts with `whsec_`.  
+   - **Note:** You will need this signing secret to complete the Stripe integration in Lukittu.
