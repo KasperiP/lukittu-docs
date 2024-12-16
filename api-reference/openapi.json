@@ -1,195 +1,145 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.1.0",
   "info": {
-    "title": "OpenAPI Plant Store",
-    "description": "A sample API that uses a plant store as an example to demonstrate features in the OpenAPI specification",
-    "license": {
-      "name": "MIT"
-    },
+    "title": "Lukittu",
+    "description": "",
     "version": "1.0.0"
   },
-  "servers": [
-    {
-      "url": "http://sandbox.mintlify.com"
-    }
-  ],
-  "security": [
-    {
-      "bearerAuth": []
-    }
-  ],
+  "tags": [],
   "paths": {
-    "/plants": {
-      "get": {
-        "description": "Returns all plants from the system that the user has access to",
+    "/api/v1/client/teams/{teamId}/verification/verify": {
+      "post": {
+        "summary": "Verify license",
+        "deprecated": false,
+        "description": "This is the main license verification endpoint. It should be called when your software starts or is activated. Based on the response, take the appropriate action.",
+        "tags": [],
         "parameters": [
           {
-            "name": "limit",
-            "in": "query",
-            "description": "The maximum number of results to return",
+            "name": "teamId",
+            "in": "path",
+            "description": "Your team's UUID. You can get this from your team's settings.",
+            "required": true,
+            "example": "{{$string.uuid}}",
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             }
           }
         ],
-        "responses": {
-          "200": {
-            "description": "Plant response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Plant"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "description": "Creates a new plant in the store",
         "requestBody": {
-          "description": "Plant to add to the store",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewPlant"
+                "type": "object",
+                "properties": {
+                  "licenseKey": {
+                    "type": "string"
+                  },
+                  "customerId": {
+                    "type": "string",
+                    "description": "Required if 'strict customers' is enabled in the team's settings and at least one customer is assigned to the license."
+                  },
+                  "productId": {
+                    "type": "string",
+                    "description": "Required if 'strict products' is enabled in the team's settings and at least one product is assigned to the license."
+                  },
+                  "deviceIdentifier": {
+                    "type": "string",
+                    "minLength": 10,
+                    "maxLength": 10000,
+                    "description": "Any identifier that uniquely identifies the current device. This could be generated from the hardware (HWID) or as a random identifier when the software first starts on the client's machine."
+                  },
+                  "challenge": {
+                    "type": "string",
+                    "description": "The challenge can be any string. It will be signed on the backend using a private key and returned to the client. On the client side, you should validate the challenge using the corresponding public key.",
+                    "maxLength": 1000
+                  },
+                  "version": {
+                    "type": "string",
+                    "description": "The version of the software that is being activated. This is useful for tracking which versions are being used and to enforce version-specific licenses.",
+                    "minLength": 3,
+                    "maxLength": 255
+                  }
+                },
+                "required": ["licenseKey"]
               }
             }
-          },
-          "required": true
+          }
         },
         "responses": {
           "200": {
-            "description": "plant response",
+            "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Plant"
+                  "type": "object",
+                  "properties": {
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "timestamp": {
+                          "type": "string"
+                        },
+                        "valid": {
+                          "type": "boolean"
+                        },
+                        "details": {
+                          "type": "string"
+                        },
+                        "code": {
+                          "type": "string",
+                          "enum": [
+                            "INTERNAL_SERVER_ERROR",
+                            "BAD_REQUEST",
+                            "LICENSE_NOT_FOUND",
+                            "VALID",
+                            "IP_LIMIT_REACHED",
+                            "PRODUCT_NOT_FOUND",
+                            "CUSTOMER_NOT_FOUND",
+                            "LICENSE_EXPIRED",
+                            "LICENSE_SUSPENDED",
+                            "MAXIMUM_CONCURRENT_SEATS",
+                            "TEAM_NOT_FOUND",
+                            "RATE_LIMIT",
+                            "DEVICE_IDENTIFIER_BLACKLISTED",
+                            "COUNTRY_BLACKLISTED",
+                            "IP_BLACKLISTED"
+                          ]
+                        },
+                        "challengeResponse": {
+                          "type": "string",
+                          "description": "Present if challenge was given"
+                        }
+                      },
+                      "required": ["timestamp", "valid", "details", "code"]
+                    }
+                  },
+                  "required": ["result"]
                 }
               }
-            }
+            },
+            "headers": {}
           },
           "400": {
-            "description": "unexpected error",
+            "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Error"
+                  "title": "",
+                  "type": "object",
+                  "properties": {}
                 }
               }
-            }
+            },
+            "headers": {}
           }
-        }
-      }
-    },
-    "/plants/{id}": {
-      "delete": {
-        "description": "Deletes a single plant based on the ID supplied",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "description": "ID of plant to delete",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int64"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "Plant deleted",
-            "content": {}
-          },
-          "400": {
-            "description": "unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
+        },
+        "security": []
       }
     }
   },
   "components": {
-    "schemas": {
-      "Plant": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "description": "The name of the plant",
-            "type": "string"
-          },
-          "tag": {
-            "description": "Tag to specify the type",
-            "type": "string"
-          }
-        }
-      },
-      "NewPlant": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/Plant"
-          },
-          {
-            "required": [
-              "id"
-            ],
-            "type": "object",
-            "properties": {
-              "id": {
-                "description": "Identification number of the plant",
-                "type": "integer",
-                "format": "int64"
-              }
-            }
-          }
-        ]
-      },
-      "Error": {
-        "required": [
-          "error",
-          "message"
-        ],
-        "type": "object",
-        "properties": {
-          "error": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "message": {
-            "type": "string"
-          }
-        }
-      }
-    },
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer"
-      }
-    }
-  }
+    "schemas": {},
+    "securitySchemes": {}
+  },
+  "servers": []
 }
