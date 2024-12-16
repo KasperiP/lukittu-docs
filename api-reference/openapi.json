@@ -32,32 +32,39 @@
                 "type": "object",
                 "properties": {
                   "licenseKey": {
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}$",
+                    "description": "License key must be in the format of XXXXX-XXXXX-XXXXX-XXXXX-XXXXX"
                   },
                   "customerId": {
                     "type": "string",
-                    "description": "Required if 'strict customers' is enabled in the team's settings and at least one customer is assigned to the license."
+                    "description": "Customer UUID must be a valid UUID",
+                    "format": "uuid"
                   },
                   "productId": {
                     "type": "string",
-                    "description": "Required if 'strict products' is enabled in the team's settings and at least one product is assigned to the license."
-                  },
-                  "deviceIdentifier": {
-                    "type": "string",
-                    "minLength": 10,
-                    "maxLength": 10000,
-                    "description": "Any identifier that uniquely identifies the current device. This could be generated from the hardware (HWID) or as a random identifier when the software first starts on the client's machine."
+                    "description": "Product UUID must be a valid UUID",
+                    "format": "uuid"
                   },
                   "challenge": {
                     "type": "string",
-                    "description": "The challenge can be any string. It will be signed on the backend using a private key and returned to the client. On the client side, you should validate the challenge using the corresponding public key.",
-                    "maxLength": 1000
+                    "description": "Challenge must not contain spaces and must be less than 1000 characters",
+                    "maxLength": 1000,
+                    "pattern": "^[A-Za-z0-9]+$"
                   },
                   "version": {
                     "type": "string",
-                    "description": "The version of the software that is being activated. This is useful for tracking which versions are being used and to enforce version-specific licenses.",
+                    "description": "Version must not contain spaces and must be between 3 and 255 characters",
                     "minLength": 3,
-                    "maxLength": 255
+                    "maxLength": 255,
+                    "pattern": "^[A-Za-z0-9]+$"
+                  },
+                  "deviceIdentifier": {
+                    "type": "string",
+                    "description": "Device identifier must not contain spaces and must be between 10 and 1000 characters",
+                    "minLength": 10,
+                    "maxLength": 1000,
+                    "pattern": "^[A-Za-z0-9]+$"
                   }
                 },
                 "required": ["licenseKey"]
@@ -88,21 +95,22 @@
                         "code": {
                           "type": "string",
                           "enum": [
-                            "INTERNAL_SERVER_ERROR",
                             "BAD_REQUEST",
-                            "LICENSE_NOT_FOUND",
-                            "VALID",
-                            "IP_LIMIT_REACHED",
-                            "PRODUCT_NOT_FOUND",
-                            "CUSTOMER_NOT_FOUND",
-                            "LICENSE_EXPIRED",
-                            "LICENSE_SUSPENDED",
-                            "MAXIMUM_CONCURRENT_SEATS",
-                            "TEAM_NOT_FOUND",
                             "RATE_LIMIT",
-                            "DEVICE_IDENTIFIER_BLACKLISTED",
+                            "TEAM_NOT_FOUND",
+                            "LICENSE_NOT_FOUND",
+                            "IP_BLACKLISTED",
                             "COUNTRY_BLACKLISTED",
-                            "IP_BLACKLISTED"
+                            "DEVICE_IDENTIFIER_BLACKLISTED",
+                            "CUSTOMER_NOT_FOUND",
+                            "PRODUCT_NOT_FOUND",
+                            "RELEASE_NOT_FOUND",
+                            "LICENSE_SUSPENDED",
+                            "LICENSE_EXPIRED",
+                            "IP_LIMIT_REACHED",
+                            "MAXIMUM_CONCURRENT_SEATS",
+                            "VALID",
+                            "INTERNAL_SERVER_ERROR"
                           ]
                         },
                         "challengeResponse": {
@@ -119,13 +127,21 @@
             }
           },
           "400": {
-            "description": "",
+            "description": "Bad request or validation error",
             "content": {
               "application/json": {
                 "schema": {
-                  "title": "",
                   "type": "object",
-                  "properties": {}
+                  "properties": {
+                    "field": {
+                      "type": ["string", "number", "null"]
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["message"],
+                  "additionalProperties": true
                 }
               }
             }
@@ -139,5 +155,10 @@
     "schemas": {},
     "securitySchemes": {}
   },
-  "servers": []
+  "servers": [
+    {
+      "url": "https://app.lukittu.com",
+      "description": "Production server"
+    }
+  ]
 }
