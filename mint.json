@@ -68,11 +68,7 @@
     },
     {
       "group": "Endpoint Examples",
-      "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
-      ]
+      "pages": ["api-reference/endpoint/verify"]
     }
   ],
   "footerSocials": {
