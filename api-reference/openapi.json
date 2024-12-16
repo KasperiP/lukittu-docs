@@ -134,7 +134,15 @@
                   "type": "object",
                   "properties": {
                     "field": {
-                      "type": ["string", "number", "null"]
+                      "oneOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "number"
+                        }
+                      ],
+                      "nullable": true
                     },
                     "message": {
                       "type": "string"
