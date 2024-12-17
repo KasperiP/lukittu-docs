@@ -11,13 +11,13 @@
       "post": {
         "summary": "Verify license",
         "deprecated": false,
-        "description": "This is the main license verification endpoint. It should be called when your software starts or is activated. Based on the response, take the appropriate action.",
+        "description": "This endpoint is used to validate a license key with the Lukittu backend. Typically, you should call this endpoint when your software starts and act based on the response provided.\n\nImportant Note: If you are using a programming language that supports loading business logic code remotely (e.g., Java with a Remote ClassLoader), you should not use this endpoint. Instead, use the \"classloader\" endpoint for enhanced security.",
         "tags": [],
         "parameters": [
           {
             "name": "teamId",
             "in": "path",
-            "description": "Your team's UUID. You can get this from your team's settings.",
+            "description": "Your team's UUID. You can find this value in your team's settings on the Lukittu dashboard. Format: UUID v4.",
             "required": true,
             "example": "{{$string.uuid}}",
             "schema": {
@@ -34,34 +34,34 @@
                   "licenseKey": {
                     "type": "string",
                     "pattern": "^[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}$",
-                    "description": "License key must be in the format of XXXXX-XXXXX-XXXXX-XXXXX-XXXXX"
+                    "description": "The Lukittu license key. Lukittu license keys always follow this format: XXXXX-XXXXX-XXXXX-XXXXX-XXXXX where X is an uppercase letter (A-Z) or a digit (1-9)."
                   },
                   "customerId": {
                     "type": "string",
-                    "description": "Customer UUID must be a valid UUID",
+                    "description": "The customer's UUID (UUID v4). This parameter is useful when a license key is shared among multiple customers, as it allows you to identify individual customers. Note: If strict customers are enabled in your team settings and the license has at least one customer attached, you must provide this value.",
                     "format": "uuid"
                   },
                   "productId": {
                     "type": "string",
-                    "description": "Product UUID must be a valid UUID",
+                    "description": "The product's UUID (UUID v4). This binds the license key to a specific Lukittu product. Note: If strict products are enabled in your team settings and the license has at least one product attached, you must provide this value.",
                     "format": "uuid"
                   },
                   "challenge": {
                     "type": "string",
-                    "description": "Challenge must not contain spaces and must be less than 1000 characters",
+                    "description": "A client-generated random string used to prevent request interception. The Lukittu backend signs this challenge with its RSA private key. You can then validate the challenge using the corresponding public key. Recommendation: Always use a challenge for enhanced security, though it is not strictly required.",
                     "maxLength": 1000,
                     "pattern": "^[A-Za-z0-9]+$"
                   },
                   "version": {
                     "type": "string",
-                    "description": "Version must not contain spaces and must be between 3 and 255 characters",
+                    "description": "The version number of your Lukittu product. Useful for tracking which product releases are actively being used. Version must not contain spaces and must be between 3 and 255 characters.",
                     "minLength": 3,
                     "maxLength": 255,
                     "pattern": "^[A-Za-z0-9]+$"
                   },
                   "deviceIdentifier": {
                     "type": "string",
-                    "description": "Device identifier must not contain spaces and must be between 10 and 1000 characters",
+                    "description": "A unique identifier for the client device. Typically a hardware ID or another identifier that remains consistent across sessions. Device identifier must not contain spaces and must be between 10 and 1000 characters.",
                     "minLength": 10,
                     "maxLength": 1000,
                     "pattern": "^[A-Za-z0-9]+$"
@@ -149,13 +149,13 @@
       "post": {
         "summary": "License Heartbeat",
         "deprecated": false,
-        "description": "This endpoint should be called periodically to report the status of the license.",
+        "description": "The Heartbeat endpoint is used to determine whether a specific device is still active. You should call this endpoint at regular intervals (e.g., once every 30 minutes). This process also validates the license key in a similar way to the Verify License endpoint.",
         "tags": [],
         "parameters": [
           {
             "name": "teamId",
             "in": "path",
-            "description": "Your team's UUID. You can get this from your team's settings.",
+            "description": "Your team's UUID. You can find this value in your team's settings on the Lukittu dashboard. Format: UUID v4.",
             "required": true,
             "example": "{{$string.uuid}}",
             "schema": {
@@ -172,34 +172,34 @@
                   "licenseKey": {
                     "type": "string",
                     "pattern": "^[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}$",
-                    "description": "License key must be in the format of XXXXX-XXXXX-XXXXX-XXXXX-XXXXX"
+                    "description": "The Lukittu license key. Lukittu license keys always follow this format: XXXXX-XXXXX-XXXXX-XXXXX-XXXXX where X is an uppercase letter (A-Z) or a digit (1-9)."
                   },
                   "customerId": {
                     "type": "string",
-                    "description": "Customer UUID must be a valid UUID",
+                    "description": "The customer's UUID (UUID v4). This parameter is useful when a license key is shared among multiple customers, as it allows you to identify individual customers. Note: If strict customers are enabled in your team settings and the license has at least one customer attached, you must provide this value.",
                     "format": "uuid"
                   },
                   "productId": {
                     "type": "string",
-                    "description": "Product UUID must be a valid UUID",
+                    "description": "The product's UUID (UUID v4). This binds the license key to a specific Lukittu product. Note: If strict products are enabled in your team settings and the license has at least one product attached, you must provide this value.",
                     "format": "uuid"
                   },
                   "challenge": {
                     "type": "string",
-                    "description": "Challenge must not contain spaces and must be less than 1000 characters",
+                    "description": "A client-generated random string used to prevent request interception. The Lukittu backend signs this challenge with its RSA private key. You can then validate the challenge using the corresponding public key. Recommendation: Always use a challenge for enhanced security, though it is not strictly required.",
                     "maxLength": 1000,
                     "pattern": "^[A-Za-z0-9]+$"
                   },
                   "version": {
                     "type": "string",
-                    "description": "Version must not contain spaces and must be between 3 and 255 characters",
+                    "description": "The version number of your Lukittu product. Useful for tracking which product releases are actively being used. Version must not contain spaces and must be between 3 and 255 characters.",
                     "minLength": 3,
                     "maxLength": 255,
                     "pattern": "^[A-Za-z0-9]+$"
                   },
                   "deviceIdentifier": {
                     "type": "string",
-                    "description": "Device identifier must not contain spaces and must be between 10 and 1000 characters",
+                    "description": "A unique identifier for the client device. Typically a hardware ID or another identifier that remains consistent across sessions. Device identifier must not contain spaces and must be between 10 and 1000 characters.",
                     "minLength": 10,
                     "maxLength": 1000,
                     "pattern": "^[A-Za-z0-9]+$"
@@ -287,13 +287,13 @@
       "get": {
         "summary": "Download Release",
         "deprecated": false,
-        "description": "This endpoint is used to download a release for a specific product.",
+        "description": "The Classloader endpoint is used to download a release file. It is primarily intended for programming languages that support loading business logic code directly from a remote server into memory. For example, this is commonly used with Java classloaders.",
         "tags": [],
         "parameters": [
           {
             "name": "teamId",
             "in": "path",
-            "description": "Your team's UUID. You can get this from your team's settings.",
+            "description": "Your team's UUID. You can find this value in your team's settings on the Lukittu dashboard. Format: UUID v4.",
             "required": true,
             "example": "{{$string.uuid}}",
             "schema": {
@@ -303,7 +303,7 @@
           {
             "name": "licenseKey",
             "in": "query",
-            "description": "License key must be in the format of XXXXX-XXXXX-XXXXX-XXXXX-XXXXX",
+            "description": "The Lukittu license key. Lukittu license keys always follow this format: XXXXX-XXXXX-XXXXX-XXXXX-XXXXX where X is an uppercase letter (A-Z) or a digit (1-9).",
             "required": true,
             "schema": {
               "type": "string",
@@ -313,7 +313,7 @@
           {
             "name": "productId",
             "in": "query",
-            "description": "Product UUID must be a valid UUID",
+            "description": "The product's UUID (UUID v4). This binds the license key to a specific Lukittu product. Note: If strict products are enabled in your team settings and the license has at least one product attached, you must provide this value.",
             "required": true,
             "schema": {
               "type": "string",
@@ -323,7 +323,7 @@
           {
             "name": "sessionKey",
             "in": "query",
-            "description": "Session key must not contain spaces and must be between 10 and 1000 characters",
+            "description": "A unique identifier for the session, usually a randomly generated string. The session key is sent in an encrypted format to the Lukittu backend, using the client's RSA public key for encryption. The Lukittu backend decrypts the session key and uses it to encrypt the release file. The client retains the original session key, which is used to decrypt the file content. Session key must not contain spaces and must be between 10 and 1000 characters.",
             "required": true,
             "schema": {
               "type": "string",
@@ -335,7 +335,7 @@
           {
             "name": "deviceIdentifier",
             "in": "query",
-            "description": "Device identifier must not contain spaces and must be between 10 and 1000 characters",
+            "description": "A unique identifier for the client device. Typically a hardware ID or another identifier that remains consistent across sessions. Device identifier must not contain spaces and must be between 10 and 1000 characters.",
             "required": true,
             "schema": {
               "type": "string",
@@ -347,7 +347,7 @@
           {
             "name": "version",
             "in": "query",
-            "description": "Version must not contain spaces and must be between 3 and 255 characters",
+            "description": "The version number of your Lukittu product. Useful for tracking which product releases are actively being used. Version must not contain spaces and must be between 3 and 255 characters.",
             "required": false,
             "schema": {
               "type": "string",
@@ -359,7 +359,7 @@
           {
             "name": "customerId",
             "in": "query",
-            "description": "Customer UUID must be a valid UUID",
+            "description": "The customer's UUID (UUID v4). This parameter is useful when a license key is shared among multiple customers, as it allows you to identify individual customers. Note: If strict customers are enabled in your team settings and the license has at least one customer attached, you must provide this value.",
             "required": false,
             "schema": {
               "type": "string",
