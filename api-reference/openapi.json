@@ -80,11 +80,15 @@
                 "schema": {
                   "type": "object",
                   "properties": {
+                    "data": {
+                      "type": "object"
+                    },
                     "result": {
                       "type": "object",
                       "properties": {
                         "timestamp": {
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "valid": {
                           "type": "boolean"
@@ -94,24 +98,7 @@
                         },
                         "code": {
                           "type": "string",
-                          "enum": [
-                            "BAD_REQUEST",
-                            "RATE_LIMIT",
-                            "TEAM_NOT_FOUND",
-                            "LICENSE_NOT_FOUND",
-                            "IP_BLACKLISTED",
-                            "COUNTRY_BLACKLISTED",
-                            "DEVICE_IDENTIFIER_BLACKLISTED",
-                            "CUSTOMER_NOT_FOUND",
-                            "PRODUCT_NOT_FOUND",
-                            "RELEASE_NOT_FOUND",
-                            "LICENSE_SUSPENDED",
-                            "LICENSE_EXPIRED",
-                            "IP_LIMIT_REACHED",
-                            "MAXIMUM_CONCURRENT_SEATS",
-                            "VALID",
-                            "INTERNAL_SERVER_ERROR"
-                          ]
+                          "enum": ["VALID"]
                         },
                         "challengeResponse": {
                           "type": "string",
@@ -121,10 +108,334 @@
                       "required": ["timestamp", "valid", "details", "code"]
                     }
                   },
-                  "required": ["result"]
+                  "required": ["data", "result"]
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad request or validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "field": {
+                      "oneOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "number"
+                        }
+                      ],
+                      "nullable": true
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["message"],
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/client/teams/{teamId}/verification/heartbeat": {
+      "post": {
+        "summary": "License Heartbeat",
+        "deprecated": false,
+        "description": "This endpoint should be called periodically to report the status of the license.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "teamId",
+            "in": "path",
+            "description": "Your team's UUID. You can get this from your team's settings.",
+            "required": true,
+            "example": "{{$string.uuid}}",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "licenseKey": {
+                    "type": "string",
+                    "pattern": "^[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}$",
+                    "description": "License key must be in the format of XXXXX-XXXXX-XXXXX-XXXXX-XXXXX"
+                  },
+                  "customerId": {
+                    "type": "string",
+                    "description": "Customer UUID must be a valid UUID",
+                    "format": "uuid"
+                  },
+                  "productId": {
+                    "type": "string",
+                    "description": "Product UUID must be a valid UUID",
+                    "format": "uuid"
+                  },
+                  "challenge": {
+                    "type": "string",
+                    "description": "Challenge must not contain spaces and must be less than 1000 characters",
+                    "maxLength": 1000,
+                    "pattern": "^[A-Za-z0-9]+$"
+                  },
+                  "version": {
+                    "type": "string",
+                    "description": "Version must not contain spaces and must be between 3 and 255 characters",
+                    "minLength": 3,
+                    "maxLength": 255,
+                    "pattern": "^[A-Za-z0-9]+$"
+                  },
+                  "deviceIdentifier": {
+                    "type": "string",
+                    "description": "Device identifier must not contain spaces and must be between 10 and 1000 characters",
+                    "minLength": 10,
+                    "maxLength": 1000,
+                    "pattern": "^[A-Za-z0-9]+$"
+                  }
+                },
+                "required": ["licenseKey", "deviceIdentifier"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object"
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "timestamp": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "valid": {
+                          "type": "boolean"
+                        },
+                        "details": {
+                          "type": "string"
+                        },
+                        "code": {
+                          "type": "string",
+                          "enum": ["VALID"]
+                        },
+                        "challengeResponse": {
+                          "type": "string",
+                          "description": "Present if challenge was given"
+                        }
+                      },
+                      "required": ["timestamp", "valid", "details", "code"]
+                    }
+                  },
+                  "required": ["data", "result"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "field": {
+                      "oneOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "number"
+                        }
+                      ],
+                      "nullable": true
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["message"],
+                  "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
+    },
+    "/api/v1/client/teams/{teamId}/verification/classloader": {
+      "get": {
+        "summary": "Download Release",
+        "deprecated": false,
+        "description": "This endpoint is used to download a release for a specific product.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "teamId",
+            "in": "path",
+            "description": "Your team's UUID. You can get this from your team's settings.",
+            "required": true,
+            "example": "{{$string.uuid}}",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "query",
+            "description": "License key must be in the format of XXXXX-XXXXX-XXXXX-XXXXX-XXXXX",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}$"
+            }
+          },
+          {
+            "name": "productId",
+            "in": "query",
+            "description": "Product UUID must be a valid UUID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "sessionKey",
+            "in": "query",
+            "description": "Session key must not contain spaces and must be between 10 and 1000 characters",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 10,
+              "maxLength": 1000,
+              "pattern": "^[A-Za-z0-9]+$"
+            }
+          },
+          {
+            "name": "deviceIdentifier",
+            "in": "query",
+            "description": "Device identifier must not contain spaces and must be between 10 and 1000 characters",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 10,
+              "maxLength": 1000,
+              "pattern": "^[A-Za-z0-9]+$"
+            }
+          },
+          {
+            "name": "version",
+            "in": "query",
+            "description": "Version must not contain spaces and must be between 3 and 255 characters",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 255,
+              "pattern": "^[A-Za-z0-9]+$"
+            }
+          },
+          {
+            "name": "customerId",
+            "in": "query",
+            "description": "Customer UUID must be a valid UUID",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response with file download",
+            "headers": {
+              "Content-Type": {
+                "description": "The MIME type of the file",
+                "schema": {
+                  "type": "string",
+                  "example": "application/octet-stream"
+                }
+              },
+              "X-File-Size": {
+                "description": "Size of the file",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Product-Name": {
+                "description": "Name of the product",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Release-Status": {
+                "description": "Status of the release",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Release-Created-At": {
+                "description": "Creation date of the release",
+                "schema": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              },
+              "X-File-Created-At": {
+                "description": "Creation date of the file",
+                "schema": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              },
+              "X-Version": {
+                "description": "Version of the release",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Latest-Version": {
+                "description": "Latest version available",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Lukittu-Version": {
+                "description": "Version of Lukittu",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-Main-Class": {
+                "description": "Main class name",
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {}
           },
           "400": {
             "description": "Bad request or validation error",

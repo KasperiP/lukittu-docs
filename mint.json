@@ -67,8 +67,12 @@
       "pages": ["api-reference/introduction"]
     },
     {
-      "group": "Endpoint Examples",
-      "pages": ["api-reference/endpoint/verify"]
+      "group": "Client endpoints",
+      "pages": [
+        "api-reference/endpoint/verify",
+        "api-reference/endpoint/heartbeat",
+        "api-reference/endpoint/classloader"
+      ]
     }
   ],
   "footerSocials": {
