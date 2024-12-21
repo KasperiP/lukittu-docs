@@ -1,0 +1,58 @@
+# Products
+
+Products are one of the central building blocks in Lukittu. They represent the software applications you manage through the Lukittu platform. Understanding how products work is essential for effectively using Lukittu's licensing system.
+
+## Overview
+
+A product in Lukittu represents a software application that you want to manage access to. Each license key can grant access to one or multiple products, providing flexible access control for your applications.
+
+When implementing Lukittu in your client-facing application, you'll need to include the product's ID (a UUID v4) in your code. This ID must be included with all requests to the Lukittu system.
+
+## Releases
+
+Products can have multiple releases to track different versions of your software. This feature is particularly valuable when using our remote classloader, but it's also useful for tracking which versions your users are running even if you're not using the classloader.
+
+### Release States
+
+Releases can exist in one of four states:
+
+1. **Published**
+
+   - Release is downloadable and generally available for use
+   - Can be accessed by all users with appropriate permissions
+
+2. **Draft**
+
+   - Release is created but not yet available to end users
+   - Useful for preparing releases ahead of time
+   - Can be published when ready
+
+3. **Archived**
+
+   - Release is no longer usable
+   - Maintained in the Lukittu panel for historical records
+   - Useful for logging and tracking purposes
+
+4. **Deprecated**
+   - Release remains usable
+   - Returns a deprecation notice to users
+   - Indicates users should upgrade to a newer version
+
+### Latest Tag
+
+Published releases can be tagged as "latest". This tag serves as a fallback version when no specific release is defined in requests. Only one release can be marked as latest at a time.
+
+### Release Restrictions
+
+Releases can be restricted to specific license keys, enabling:
+
+- Beta testing with selected users
+- Controlled rollouts of new versions
+- Testing releases with a limited user base before public release
+
+## Best Practices
+
+1. Always store your product ID securely in your application
+2. Implement version checking to handle deprecated releases gracefully
+3. Use release restrictions for staged rollouts of new versions
+4. Maintain clear version naming conventions for your releases
