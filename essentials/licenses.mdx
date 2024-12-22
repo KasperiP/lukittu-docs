@@ -1,0 +1,84 @@
+---
+title: "Licenses"
+description: "Licenses are the cornerstone of the Lukittu system, providing access control to your software. Without a valid license, users cannot access your software. License keys enable you to track software usage and prevent unauthorized access."
+---
+
+## License Properties
+
+When creating a license in Lukittu, you can configure the following properties:
+
+### License Key Format
+
+License keys follow the format `XXXXX-XXXXX-XXXXX-XXXXX-XXXXX`, where X can be any character from A-Z or 0-9. Keys are unique within each team. You can either:
+
+- Generate the key automatically through Lukittu
+- Manually specify a custom key
+
+### Expiration Types
+
+#### 1. Never
+
+Suitable for lifetime access products. The license will never expire once issued.
+
+#### 2. Date
+
+Set a specific expiration date for the license. The expiration date is timezone-aware and will be set according to your dashboard's timezone.
+
+Example: Setting an expiration date of 12/12/2022 will make the license invalid after that date.
+
+#### 3. Duration
+
+Specify a time period after which the license expires. You can choose when the expiration countdown begins:
+
+- **Creation**: Timer starts when the license is created
+- **Activation**: Timer starts upon first license activation, generating an expiration date based on the activation date
+
+### IP Limitations
+
+Restrict the number of unique IP addresses that can use the license. Configure the IP limit period in team settings:
+
+- **Day**: Maximum unique IPs per day
+- **Week**: Maximum unique IPs per week
+- **Month**: Maximum unique IPs per month
+
+### Concurrent Users
+
+Control how many users can simultaneously use the license. This feature:
+
+- Tracks usage through heartbeat signals
+- Uses the "Device timeout" setting from team settings to determine when a device becomes inactive
+- Marks devices as inactive if no heartbeat is received within the timeout period
+
+> ⚠️ **Important**: Dockerized environments may have issues with concurrent user limits due to difficulties in generating unique device identifiers.
+
+### Product Assignment
+
+Restrict license usage to specific products in your portfolio. This is useful when:
+
+- Managing multiple products
+- Creating product-specific licenses
+- Implementing tiered access
+
+### Customer Assignment
+
+Control which customers can use the license:
+
+- Assign multiple customers to a single license
+- Enable shared license functionality
+- Requires customer ID in authentication requests
+
+### License Status
+
+#### Suspension
+
+- Temporarily disable licenses using the suspension feature
+- Suspended licenses are considered invalid
+- Useful for temporary access restriction
+
+### Metadata
+
+Store additional license information using metadata:
+
+- Custom fields for extra license details
+- Used by integrations
+- Flexible data storage for specific use cases

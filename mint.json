@@ -51,14 +51,31 @@
   "navigation": [
     {
       "group": "Get Started",
-      "pages": ["introduction", "quickstart", "development"]
+      "pages": ["introduction"]
     },
     {
       "group": "Essentials",
       "pages": [
         {
+          "group": "Products",
+          "pages": ["essentials/products"]
+        },
+        {
+          "group": "Licenses",
+          "pages": ["essentials/licenses"]
+        },
+        {
           "group": "Integrations",
           "pages": ["essentials/integrations/stripe"]
+        }
+      ]
+    },
+    {
+      "group": "Security",
+      "pages": [
+        {
+          "group": "Classloader",
+          "pages": ["security/classloader"]
         }
       ]
     },
@@ -76,7 +93,6 @@
     }
   ],
   "footerSocials": {
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://linkedin.com/company/mintlify"
+    "discord": "https://discord.lukittu.com"
   }
 }
