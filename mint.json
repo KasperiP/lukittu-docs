@@ -58,6 +58,7 @@
       "pages": [
         "essentials/products",
         "essentials/licenses",
+        "essentials/settings",
         {
           "group": "Integrations",
           "pages": ["essentials/integrations/stripe"]
