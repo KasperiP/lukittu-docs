@@ -1,0 +1,83 @@
+---
+title: "General Security Overview"
+description: "Lukittu client-server communication employs a sophisticated hybrid cryptographic system that combines both asymmetric (RSA 2048) and symmetric encryption to ensure maximum security and integrity. This documentation provides a detailed overview of the communication processe"
+---
+
+## Introduction
+
+Lukittu client-server communication employs a sophisticated hybrid cryptographic system that combines both asymmetric (RSA 2048) and symmetric encryption to ensure maximum security and integrity. This documentation provides a detailed overview of the communication processes.
+
+## HTTP Communication Security
+
+The general HTTP communication between client and server implements asymmetric cryptography with the following characteristics:
+
+- Server maintains an RSA 2048 key pair:
+  - Private key (secured on server)
+  - Public key (distributed to clients)
+- Clients possess only the server's public key
+- Challenge-response verification ensures request authenticity
+- All transmitted data is cryptographically signed
+
+### HTTP Communication Flow
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Server
+
+    Note over Server: RSA 2048 key pair:<br/>Private key (secured)<br/>Public key (distributed)
+
+    Note over Client: Generate cryptographic challenge
+    Client->>Server: Send request
+    Note over Client,Server: Request payload:<br/>1. Cryptographic challenge<br/>2. Request body data<br/>
+
+    Note over Server: 1. Sign challenge with<br/>private key (RSA 2048)
+    Server->>Client: Send response
+    Note over Client,Server: Response payload:<br/>1. Digital signature<br/>2. Response data<br/>
+
+    Note over Client: Security checks:<br/>1. Verify RSA 2048 signature<br/>2. Validate challenge match<br/>
+
+    alt All security checks pass
+        Note over Client: Process validated response
+    else Any check fails
+        Note over Client: Reject response<br/>Log security exception
+    end
+```
+
+## Classloader Security Architecture
+
+The Classloader implements an advanced encryption scheme that protects both data in transit and ensures secure class loading:
+
+- Uses RSA 2048 for key exchange
+- Implements AES-256-GCM for chunk encryption
+- Maintains zero-persistence security model
+- Employs session-based encryption with rotating keys
+
+### Classloader Communication Flow
+
+```mermaid
+sequenceDiagram
+    participant Client as Client Classloader
+    participant Backend as Lukittu Backend
+    participant Memory as Client Memory
+
+    Note over Client: 1. Generate random session ID<br/>2. Access RSA 2048 public key
+
+    Client->>Client: Encrypt session ID using<br/>RSA 2048 OAEP padding
+
+    Client->>Backend: Send encrypted session ID<br/>+ authentication parameters
+
+    Note over Backend: 1. RSA 2048 private key<br/>2. Security validation suite
+    Backend->>Backend: 1. RSA decrypt session ID<br/>2. Validate session parameters<br/>3. Verify license credentials
+    Backend->>Backend: Generate AES session key
+
+    loop For each class chunk
+        Backend->>Backend: 1. AES-256-GCM encryption<br/>2. Generate auth tag
+        Backend->>Client: Stream encrypted chunk + IV
+        Client->>Client: 1. Verify auth tag<br/>2. Decrypt with session key
+        Client->>Memory: Load verified class
+        Note over Memory: Zero-persistence:<br/>Classes only exist in memory
+    end
+
+    Note over Client,Memory: Runtime security:<br/>No persistence to disk<br/>
+```
