@@ -56,14 +56,8 @@
     {
       "group": "Essentials",
       "pages": [
-        {
-          "group": "Products",
-          "pages": ["essentials/products"]
-        },
-        {
-          "group": "Licenses",
-          "pages": ["essentials/licenses"]
-        },
+        "essentials/products",
+        "essentials/licenses",
         {
           "group": "Integrations",
           "pages": ["essentials/integrations/stripe"]
@@ -72,12 +66,7 @@
     },
     {
       "group": "Security",
-      "pages": [
-        {
-          "group": "Classloader",
-          "pages": ["security/classloader"]
-        }
-      ]
+      "pages": ["security/classloader"]
     },
     {
       "group": "API Documentation",
