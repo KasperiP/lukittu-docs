@@ -29,6 +29,10 @@
     {
       "name": "API Reference",
       "url": "api-reference"
+    },
+    {
+      "name": "Examples",
+      "url": "examples"
     }
   ],
   "anchors": [
@@ -72,6 +76,10 @@
     {
       "group": "API Documentation",
       "pages": ["api-reference/introduction"]
+    },
+    {
+      "group": "Examples",
+      "pages": ["examples/introduction"]
     },
     {
       "group": "Client endpoints",
