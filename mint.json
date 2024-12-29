@@ -76,9 +76,18 @@
     {
       "group": "Client endpoints",
       "pages": [
-        "api-reference/endpoint/verify",
-        "api-reference/endpoint/heartbeat",
-        "api-reference/endpoint/classloader"
+        "api-reference/endpoint/client/verify",
+        "api-reference/endpoint/client/heartbeat",
+        "api-reference/endpoint/client/classloader"
+      ]
+    },
+    {
+      "group": "Dev endpoints",
+      "pages": [
+        "api-reference/endpoint/dev/licenses/GET",
+        "api-reference/endpoint/dev/licenses/POST",
+        "api-reference/endpoint/dev/licenses/id/[id]/GET",
+        "api-reference/endpoint/dev/licenses/[licenseKey]/GET"
       ]
     }
   ],

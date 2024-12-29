@@ -5,14 +5,19 @@
     "description": "",
     "version": "1.0.0"
   },
-  "tags": [],
+  "tags": [
+    {
+      "name": "Dev",
+      "description": "Development endpoints"
+    }
+  ],
   "paths": {
     "/api/v1/client/teams/{teamId}/verification/verify": {
       "post": {
         "summary": "Verify license",
         "deprecated": false,
         "description": "This endpoint is used to validate a license key with the Lukittu backend. Typically, you should call this endpoint when your software starts and act based on the response provided.\n\nImportant Note: If you are using a programming language that supports loading business logic code remotely (e.g., Java with a Remote ClassLoader), you should not use this endpoint. Instead, use the \"classloader\" endpoint for enhanced security.",
-        "tags": [],
+        "tags": ["Client"],
         "parameters": [
           {
             "name": "teamId",
@@ -150,7 +155,7 @@
         "summary": "License Heartbeat",
         "deprecated": false,
         "description": "The Heartbeat endpoint is used to determine whether a specific device is still active. You should call this endpoint at regular intervals (e.g., once every 30 minutes). This process also validates the license key in a similar way to the Verify License endpoint.",
-        "tags": [],
+        "tags": ["Client"],
         "parameters": [
           {
             "name": "teamId",
@@ -288,7 +293,7 @@
         "summary": "Download Release",
         "deprecated": false,
         "description": "The Classloader endpoint is used to download a release file. It is primarily intended for programming languages that support loading business logic code directly from a remote server into memory. For example, this is commonly used with Java classloaders.",
-        "tags": [],
+        "tags": ["Client"],
         "parameters": [
           {
             "name": "teamId",
@@ -468,11 +473,782 @@
         },
         "security": []
       }
+    },
+    "/api/v1/dev/teams/{teamId}/licenses": {
+      "post": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Dev"],
+        "summary": "Create a new license",
+        "parameters": [
+          {
+            "name": "teamId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["expirationType"],
+                "properties": {
+                  "customerIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "default": []
+                  },
+                  "productIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "default": []
+                  },
+                  "expirationDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "nullable": true
+                  },
+                  "expirationDays": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "nullable": true
+                  },
+                  "expirationStart": {
+                    "type": "string",
+                    "enum": ["CREATION", "ACTIVATION"],
+                    "nullable": true
+                  },
+                  "expirationType": {
+                    "type": "string",
+                    "enum": ["NEVER", "DATE", "DURATION"]
+                  },
+                  "ipLimit": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "nullable": true
+                  },
+                  "metadata": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "key": {
+                          "type": "string"
+                        },
+                        "value": {
+                          "type": "string"
+                        },
+                        "locked": {
+                          "type": "boolean"
+                        }
+                      }
+                    },
+                    "default": []
+                  },
+                  "seats": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "nullable": true
+                  },
+                  "suspended": {
+                    "type": "boolean",
+                    "default": false
+                  },
+                  "sendEmailDelivery": {
+                    "type": "boolean",
+                    "default": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "License created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LicenseResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request body",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Max licenses reached",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too many email delivery requests",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Dev"],
+        "summary": "Get licenses",
+        "parameters": [
+          {
+            "name": "teamId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "enum": [10, 25, 50, 100],
+              "default": 25
+            }
+          },
+          {
+            "name": "sortColumn",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["createdAt", "updatedAt"],
+              "default": "createdAt"
+            }
+          },
+          {
+            "name": "sortDirection",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "enum": ["asc", "desc"],
+              "default": "desc"
+            }
+          },
+          {
+            "name": "productIds",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "customerIds",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Licenses retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "hasNextPage": {
+                          "type": "boolean"
+                        },
+                        "licenses": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "format": "uuid"
+                              },
+                              "licenseKey": {
+                                "type": "string",
+                                "pattern": "^[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}$"
+                              },
+                              "ipLimit": {
+                                "type": "integer",
+                                "nullable": true
+                              },
+                              "metadata": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "key": {
+                                      "type": "string"
+                                    },
+                                    "value": {
+                                      "type": "string"
+                                    },
+                                    "locked": {
+                                      "type": "boolean"
+                                    }
+                                  }
+                                }
+                              },
+                              "expirationType": {
+                                "type": "string",
+                                "enum": ["NEVER", "DATE", "DURATION"]
+                              },
+                              "expirationStart": {
+                                "type": "string",
+                                "enum": ["CREATION", "ACTIVATION"]
+                              },
+                              "expirationDate": {
+                                "type": "string",
+                                "format": "date-time",
+                                "nullable": true
+                              },
+                              "expirationDays": {
+                                "type": "integer",
+                                "nullable": true
+                              },
+                              "seats": {
+                                "type": "integer",
+                                "nullable": true
+                              },
+                              "suspended": {
+                                "type": "boolean"
+                              },
+                              "teamId": {
+                                "type": "string",
+                                "format": "uuid"
+                              },
+                              "createdByUserId": {
+                                "type": "string",
+                                "format": "uuid"
+                              },
+                              "createdAt": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "updatedAt": {
+                                "type": "string",
+                                "format": "date-time"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "result": {
+                      "type": "object",
+                      "properties": {
+                        "details": {
+                          "type": "string"
+                        },
+                        "timestamp": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "valid": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/dev/teams/{teamId}/licenses/id/{licenseId}": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Dev"],
+        "summary": "Get license by ID",
+        "parameters": [
+          {
+            "name": "teamId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "licenseId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "License found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LicenseResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid teamId or licenseId",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "License not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/dev/teams/{teamId}/licenses/{licenseKey}": {
+      "get": {
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "tags": ["Dev"],
+        "summary": "Get license by key",
+        "parameters": [
+          {
+            "name": "teamId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "licenseKey",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "License found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LicenseResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid teamId or licenseKey",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid API key",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "License not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
-    "schemas": {},
-    "securitySchemes": {}
+    "schemas": {
+      "LicenseResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "licenseKey": {
+                "type": "string",
+                "pattern": "^[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}-[A-Z0-9]{5}$"
+              },
+              "ipLimit": {
+                "type": "integer",
+                "nullable": true
+              },
+              "metadata": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "key": {
+                      "type": "string"
+                    },
+                    "value": {
+                      "type": "string"
+                    },
+                    "locked": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              },
+              "expirationType": {
+                "type": "string",
+                "enum": ["NEVER", "DATE", "DURATION"]
+              },
+              "expirationStart": {
+                "type": "string",
+                "enum": ["CREATION", "ACTIVATION"]
+              },
+              "expirationDate": {
+                "type": "string",
+                "format": "date-time",
+                "nullable": true
+              },
+              "expirationDays": {
+                "type": "integer",
+                "nullable": true
+              },
+              "seats": {
+                "type": "integer",
+                "nullable": true
+              },
+              "suspended": {
+                "type": "boolean"
+              },
+              "teamId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "createdByUserId": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "createdAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "updatedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "customers": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email",
+                      "nullable": true
+                    },
+                    "fullName": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "metadata": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "key": {
+                            "type": "string"
+                          },
+                          "value": {
+                            "type": "string"
+                          },
+                          "locked": {
+                            "type": "boolean"
+                          }
+                        }
+                      }
+                    },
+                    "teamId": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "createdByUserId": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              },
+              "products": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "metadata": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "key": {
+                            "type": "string"
+                          },
+                          "value": {
+                            "type": "string"
+                          },
+                          "locked": {
+                            "type": "boolean"
+                          }
+                        }
+                      }
+                    },
+                    "teamId": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "createdByUserId": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "result": {
+            "type": "object",
+            "properties": {
+              "details": {
+                "type": "string"
+              },
+              "timestamp": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "valid": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object"
+          },
+          "result": {
+            "type": "object",
+            "properties": {
+              "details": {
+                "type": "string"
+              },
+              "timestamp": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "valid": {
+                "type": "boolean",
+                "enum": [false]
+              }
+            },
+            "required": ["details", "timestamp", "valid"]
+          }
+        },
+        "required": ["data", "result"]
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "apiKey"
+      }
+    }
   },
   "servers": [
     {
