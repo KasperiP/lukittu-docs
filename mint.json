@@ -82,6 +82,10 @@
       "pages": ["examples/introduction"]
     },
     {
+      "group": "Java",
+      "pages": ["examples/java/simple", "examples/java/advanced"]
+    },
+    {
       "group": "Client endpoints",
       "pages": [
         "api-reference/endpoint/client/verify",
