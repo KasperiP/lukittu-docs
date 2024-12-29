@@ -69,6 +69,48 @@ Control which customers can use the license:
 
 ### License Status
 
+Licenses can have one of five statuses: ACTIVE, INACTIVE, EXPIRING, EXPIRED, or SUSPENDED. The status is automatically determined based on several factors:
+
+#### Last Active Date
+
+- Tracks when the license was last used
+- Initially set to license creation date
+- Updates with each license authentication request
+- Used to determine inactivity status
+
+#### Status Types
+
+1. **ACTIVE**
+
+   - Default status for valid, recently used licenses
+   - License is within expiration period
+   - Has been used within last 30 days
+
+2. **INACTIVE**
+
+   - No license activity for over 30 days
+   - License is still valid but unused
+   - Applies to all license types
+
+3. **EXPIRING**
+
+   - License will expire within 30 days
+   - Only applies to DATE and DURATION type licenses
+   - License is still valid and usable
+
+4. **EXPIRED**
+
+   - Past the expiration date
+   - Only applies to DATE and DURATION type licenses
+   - License is no longer valid
+
+5. **SUSPENDED**
+   - Manually suspended by administrator
+   - Overrides all other status checks
+   - License is temporarily invalid
+
+> 📝 **Note**: A license is considered inactive if there have been no authentication requests for over 30 days, regardless of its expiration status.
+
 #### Suspension
 
 - Temporarily disable licenses using the suspension feature
