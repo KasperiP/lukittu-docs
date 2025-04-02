@@ -1,28 +1,38 @@
 ---
-title: "Watermarking Overview"
+title: "Watermarker"
 description: "Watermarking automatically adds hidden identifiers to your Java applications during class loading. These identifiers can be detected later to verify the software's origin, helping to protect intellectual property, track unauthorized distribution, and identify leaked software."
 ---
 
 ## Introduction
+
 Watermarking automatically embeds hidden identifiers in Java applications during class loading. These identifiers allow verification of software origin, protection of intellectual property, and tracking of unauthorized distribution.
 
 ## Available Watermarking Methods
 
 ### Static Constant Pool Synthesis
+
 Embeds encrypted watermarks within the Java class file's constant pool structure.
 
 ### Dynamic Bytecode Injection
+
 Injects watermarks directly into existing Java methods at the bytecode level.
 
 ### Temporal Attribute Embedding
+
 Embeds timestamps as obfuscated custom class attributes to track when the code was processed.
 
 ## Understanding Density Settings
+
 The density percentage controls how many classes in your application will receive watermarks:
 
-- Higher density increases file size and may slow down load times.
-- A recommended density setting is **5-20%**, ensuring a balance between security and performance.
-- Higher density means more identifiers to remove, but they are typically removed programmatically.
+-   **Higher density increases file size** and may slow down load times.
+-   A recommended density setting is **5-20%**, ensuring a balance between security and performance.
+-   Higher density means more identifiers to remove, but they are typically removed programmatically.
 
 ## Watermark Analysis
-Our analyzer tool can verify if JAR files contain your watermarks, determine when they were applied, and confirm software authenticity through file upload and analysis.
+
+Our analyzer tool can verify whether JAR files contain your watermarks, determine when they were applied, and confirm software authenticity through file upload and analysis. Using it is as simple as uploading the leaked or cracked JAR file to Lukittu's analyzer page. If any watermarks are detected, you will see which license was used for the class loading of that specific JAR.
+
+All identifiers are encrypted, meaning a potential cracker cannot modify the findings. If Lukittu’s analyzer detects something, you can be confident that it hasn’t been altered.
+
+Keep in mind that you must use the analyzer associated with the specific team that distributed the JAR file. If you belong to multiple teams using Lukittu Pro & Analyzer, only the analyzer of the team that owns the JAR will detect anything.
