@@ -71,7 +71,10 @@
     },
     {
       "group": "Security",
-      "pages": ["security/general"]
+      "pages": [
+        "security/general",
+        "security/watermarker"
+      ]
     },
     {
       "group": "API Documentation",

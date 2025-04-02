@@ -1,0 +1,28 @@
+---
+title: "Watermarking Overview"
+description: "Watermarking automatically adds hidden identifiers to your Java applications during class loading. These identifiers can be detected later to verify the software's origin, helping to protect intellectual property, track unauthorized distribution, and identify leaked software."
+---
+
+## Introduction
+Watermarking automatically embeds hidden identifiers in Java applications during class loading. These identifiers allow verification of software origin, protection of intellectual property, and tracking of unauthorized distribution.
+
+## Available Watermarking Methods
+
+### Static Constant Pool Synthesis
+Embeds encrypted watermarks within the Java class file's constant pool structure.
+
+### Dynamic Bytecode Injection
+Injects watermarks directly into existing Java methods at the bytecode level.
+
+### Temporal Attribute Embedding
+Embeds timestamps as obfuscated custom class attributes to track when the code was processed.
+
+## Understanding Density Settings
+The density percentage controls how many classes in your application will receive watermarks:
+
+- Higher density increases file size and may slow down load times.
+- A recommended density setting is **5-20%**, ensuring a balance between security and performance.
+- Higher density means more identifiers to remove, but they are typically removed programmatically.
+
+## Watermark Analysis
+Our analyzer tool can verify if JAR files contain your watermarks, determine when they were applied, and confirm software authenticity through file upload and analysis.
