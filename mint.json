@@ -1,112 +1,111 @@
 {
-  "$schema": "https://mintlify.com/schema.json",
-  "name": "Lukittu Documentation",
-  "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
-  },
-  "favicon": "/favicon.svg",
-  "colors": {
-    "primary": "#4153af",
-    "light": "#4153af",
-    "dark": "#4153af",
-    "anchors": {
-      "from": "#4153af",
-      "to": "#677deb"
-    }
-  },
-  "topbarLinks": [
-    {
-      "name": "Discord",
-      "url": "https://discord.lukittu.com"
-    }
-  ],
-  "topbarCtaButton": {
-    "name": "Dashboard",
-    "url": "https://app.lukittu.com"
-  },
-  "tabs": [
-    {
-      "name": "API Reference",
-      "url": "api-reference"
+    "$schema": "https://mintlify.com/schema.json",
+    "name": "Lukittu Documentation",
+    "logo": {
+        "dark": "/logo/dark.svg",
+        "light": "/logo/light.svg"
     },
-    {
-      "name": "Examples",
-      "url": "examples"
-    }
-  ],
-  "anchors": [
-    {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://docs.lukittu.com"
-    },
-    {
-      "name": "Discord-server",
-      "icon": "discord",
-      "url": "https://discord.lukittu.com"
-    },
-    {
-      "name": "Blog",
-      "icon": "newspaper",
-      "url": "https://www.lukittu.com/blog"
-    }
-  ],
-  "navigation": [
-    {
-      "group": "Get Started",
-      "pages": ["introduction"]
-    },
-    {
-      "group": "Essentials",
-      "pages": [
-        "essentials/products",
-        "essentials/licenses",
-        "essentials/settings",
-        {
-          "group": "Integrations",
-          "pages": ["essentials/integrations/stripe"]
+    "favicon": "/favicon.svg",
+    "colors": {
+        "primary": "#4153af",
+        "light": "#4153af",
+        "dark": "#4153af",
+        "anchors": {
+            "from": "#4153af",
+            "to": "#677deb"
         }
-      ]
     },
-    {
-      "group": "Security",
-      "pages": [
-        "security/general",
-        "security/watermarker"
-      ]
+    "topbarLinks": [
+        {
+            "name": "Discord",
+            "url": "https://discord.lukittu.com"
+        }
+    ],
+    "topbarCtaButton": {
+        "name": "Dashboard",
+        "url": "https://app.lukittu.com"
     },
-    {
-      "group": "API Documentation",
-      "pages": ["api-reference/introduction"]
-    },
-    {
-      "group": "Examples",
-      "pages": ["examples/introduction"]
-    },
-    {
-      "group": "Java",
-      "pages": ["examples/java/simple", "examples/java/advanced"]
-    },
-    {
-      "group": "Client endpoints",
-      "pages": [
-        "api-reference/endpoint/client/verify",
-        "api-reference/endpoint/client/heartbeat",
-        "api-reference/endpoint/client/classloader"
-      ]
-    },
-    {
-      "group": "Dev endpoints",
-      "pages": [
-        "api-reference/endpoint/dev/licenses/GET",
-        "api-reference/endpoint/dev/licenses/POST",
-        "api-reference/endpoint/dev/licenses/id/[id]/GET",
-        "api-reference/endpoint/dev/licenses/[licenseKey]/GET"
-      ]
+    "tabs": [
+        {
+            "name": "API Reference",
+            "url": "api-reference"
+        },
+        {
+            "name": "Examples",
+            "url": "examples"
+        }
+    ],
+    "anchors": [
+        {
+            "name": "Documentation",
+            "icon": "book-open-cover",
+            "url": "https://docs.lukittu.com"
+        },
+        {
+            "name": "Discord-server",
+            "icon": "discord",
+            "url": "https://discord.lukittu.com"
+        },
+        {
+            "name": "Blog",
+            "icon": "newspaper",
+            "url": "https://www.lukittu.com/blog"
+        }
+    ],
+    "navigation": [
+        {
+            "group": "Get Started",
+            "pages": ["introduction"]
+        },
+        {
+            "group": "Essentials",
+            "pages": [
+                "essentials/products",
+                "essentials/licenses",
+                "essentials/settings",
+                {
+                    "group": "Integrations",
+                    "pages": ["essentials/integrations/stripe"]
+                }
+            ]
+        },
+        {
+            "group": "Security",
+            "pages": ["security/general", "security/watermarker"]
+        },
+        {
+            "group": "API Documentation",
+            "pages": ["api-reference/introduction"]
+        },
+        {
+            "group": "Examples",
+            "pages": ["examples/introduction"]
+        },
+        {
+            "group": "Java",
+            "pages": ["examples/java/simple", "examples/java/advanced"]
+        },
+        {
+            "group": "Client endpoints",
+            "pages": [
+                "api-reference/endpoint/client/verify",
+                "api-reference/endpoint/client/heartbeat",
+                "api-reference/endpoint/client/classloader"
+            ]
+        },
+        {
+            "group": "Dev endpoints",
+            "pages": [
+                "api-reference/endpoint/dev/licenses/GET",
+                "api-reference/endpoint/dev/licenses/POST",
+                "api-reference/endpoint/dev/licenses/id/[id]/GET",
+                "api-reference/endpoint/dev/licenses/id/[id]/DELETE",
+                "api-reference/endpoint/dev/licenses/[licenseKey]/GET",
+                "api-reference/endpoint/dev/licenses/[licenseKey]/DELETE"
+            ]
+        }
+    ],
+    "footerSocials": {
+        "discord": "https://discord.lukittu.com"
     }
-  ],
-  "footerSocials": {
-    "discord": "https://discord.lukittu.com"
-  }
 }
