@@ -1,0 +1,163 @@
+---
+title: "BuiltByBit Integration"
+description: "Lukittu supports BuiltByBit by providing a fully automatic licensing experience for your resources."
+---
+
+## Implementation Steps
+
+Follow these steps to configure licensing for the products you sell using BuiltByBit:
+
+1. Create a product in the Lukittu platform.
+
+2. Enable the BuiltByBit integration on the Lukittu dashboard.
+
+3. Set up a purchase webhook on BuiltByBit.
+
+4. Create a license placeholder for automatic license delivery.
+
+## Creating a Product in the Lukittu Platform
+
+1. Navigate to the **Products** page and click **Add Product**.
+
+2. Enter a name for your product and click **Save**.
+
+3. Open the page for the newly created product and copy the product's **ID**.
+
+## Enabling BuiltByBit Integration
+
+Before setting up webhooks on BuiltByBit, you need to enable the integration in your Lukittu dashboard:
+
+1. **Access Integrations Settings**
+
+    - Log in to your Lukittu dashboard.
+    - Navigate to the **Integrations** tab.
+
+2. **Enable BuiltByBit Integration**
+    - Locate the BuiltByBit integration option.
+    - Toggle the integration to **Active**.
+    - Copy the generated **Secret** as you'll need it for the webhook setup.
+
+## Setting Up Purchase Webhook
+
+Follow these steps to configure the purchase webhook that will automatically issue licenses:
+
+### Steps to Create a Purchase Webhook
+
+1. **Access BuiltByBit Webhooks**
+
+    - Go to the [BuiltByBit webhooks dashboard](https://builtbybit.com/resources/dashboard/webhooks).
+    - Click the **Create webhook** button.
+
+2. **Configure Webhook Settings**
+
+    - **Name**: Enter a descriptive name for the webhook.
+    - **Trigger**: Select **Purchase** from the dropdown.
+    - **Resource Selection**: Choose **Only apply to certain resources** and select the specific resource(s) you want to license.
+
+3. **Set Webhook URL**
+
+    - Enter the following URL:
+        ```
+        https://app.lukittu.com/api/v1/integrations/built-by-bit?teamId=YOUR_TEAM_ID
+        ```
+        Replace `YOUR_TEAM_ID` with your Lukittu team's ID.
+        - **How to Find Your Team ID:**
+            - Go to the Lukittu dashboard.
+            - Navigate to **Team** → **Settings** to locate your team ID.
+
+4. **Configure Webhook Format**
+
+    - **Template**: Select **Custom**
+    - **Method**: Choose **POST**
+    - **Content Type**: Select **application/json**
+
+5. **Set Webhook Body**
+    - Copy and paste the following JSON template:
+        ```json
+        {
+            "apiSecret": "YOUR_BUILT_BY_BIT_SECRET",
+            "builtByBitData": {
+                "user": {
+                    "id": "{user_id}",
+                    "username": "{username}",
+                    "userUrl": "{user_url}"
+                },
+                "resource": {
+                    "title": "{resource_title}",
+                    "id": "{resource_id}",
+                    "url": "{resource_url}",
+                    "addon": {
+                        "id": "{addon_id}",
+                        "title": "{addon_title}"
+                    },
+                    "bundle": {
+                        "id": "{bundle_id}",
+                        "title": "{bundle_title}"
+                    },
+                    "renewal": "{renewal}",
+                    "pricing": {
+                        "listPrice": "{list_price}",
+                        "finalPrice": "{final_price}"
+                    },
+                    "purchaseDate": "{purchase_date}"
+                }
+            },
+            "lukittuData": {
+                "productId": "YOUR_LUKITTU_PRODUCT_ID",
+                "ipLimit": null,
+                "seats": null,
+                "expirationDays": null,
+                "expirationStart": null
+            }
+        }
+        ```
+6. **Customize Webhook Data**
+
+    - Replace `YOUR_BUILT_BY_BIT_SECRET` with the integration secret from your Lukittu dashboard.
+    - Replace `YOUR_LUKITTU_PRODUCT_ID` with the product ID you copied earlier.
+    - **Note:** The fields `ipLimit`, `seats`, `expirationDays`, and `expirationStart` are optional.
+        - Leave them as `null` if you don't need them, or set appropriate values based on your licensing requirements.
+
+7. **Save the Webhook**
+    - Click the **Save** button to create your purchase webhook.
+
+## Setting Up License Placeholder
+
+To enable automatic license delivery to your customers, you need to create a license placeholder:
+
+### Steps to Create a License Placeholder
+
+1. **Access BuiltByBit Placeholders**
+
+    - Go to the [BuiltByBit placeholders page](https://builtbybit.com/placeholders/).
+    - Click the **Create placeholder** button.
+
+2. **Configure Placeholder Settings**
+
+    - **Name**: Enter a descriptive placeholder name (e.g., `%%**LUKITTU_LICENSE_KEY**%%`).
+    - **Type**: Select **External license key** from the dropdown.
+
+3. **Set Placeholder URL**
+
+    - Enter the following URL:
+        ```
+        https://app.lukittu.com/api/v1/integrations/built-by-bit/placeholder?teamId=YOUR_TEAM_ID
+        ```
+        Replace `YOUR_TEAM_ID` with your Lukittu team's ID.
+
+4. **Set Secret**
+
+    - Enter the BuiltByBit integration secret you created on your Lukittu dashboard.
+
+5. **Save the Placeholder**
+    - Click the **Save** button to create your license placeholder.
+
+## Verifying the Integration
+
+Once you've completed the steps above, your BuiltByBit integration should be fully functional:
+
+1. **Test a Purchase**
+
+    - Make a test purchase of your resource on BuiltByBit. You can use coupoun to get it for free!
+    - Verify that a license is automatically generated in your Lukittu dashboard after purchase.
+    - Confirm that the license key is replaced to corresponding placeholder during download.

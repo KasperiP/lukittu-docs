@@ -65,7 +65,10 @@
                 "essentials/settings",
                 {
                     "group": "Integrations",
-                    "pages": ["essentials/integrations/stripe"]
+                    "pages": [
+                        "essentials/integrations/stripe",
+                        "essentials/integrations/built-by-bit"
+                    ]
                 }
             ]
         },
