@@ -7,36 +7,42 @@ description: "Configuration settings for your Lukittu team."
 
 On your team settings page, you can configure the following settings:
 
-### Strict Customers
+### Access Control Settings
+
+#### Strict Customers
 
 If true, when you have a license key with at least one customer assigned, you need to provide a valid customer ID on each request.
 
-### Strict Products
+#### Strict Products
 
 If true, when you have a license key with at least one product assigned, you need to provide a valid product ID on each request.
 
-### Strict Releases
+#### Strict Releases
 
 If true, when you have a license key with at least one product assigned which has releases, you need to provide a valid release version on each request.
 
-### IP-Limit Period
+### License Usage Settings
+
+#### IP-Limit Period
 
 The time period during which unique IP addresses are counted for IP-limit on license keys. For example, if you set this to "day" and the license IP limit to 5, then a license key can be used by 5 unique IP addresses in a day.
 
-### Device Timeout
+#### Device Timeout
 
 The number of minutes a device is considered active after a heartbeat (or request). This is used for license active seats calculation.
 
-### Watermarking (PRO)
+### Premium Features
+
+#### Watermarking (PRO)
 
 If true, Lukittu will modify the Java bytecode of your application to add a watermark to the compiled classes. This watermark will contain identifiers that can be used to track the source of a leak.
 
-### Email Settings (PRO)
+#### Email Settings (PRO)
 
-#### Email Header Image
+##### Email Header Image
 
 The image that will be used in the header of the emails sent by Lukittu.
 
-#### Email Delivery Message
+##### Email Delivery Message
 
 A custom message that will be added to the email delivery message.

@@ -11,8 +11,8 @@ When creating a license in Lukittu, you can configure the following properties:
 
 License keys follow the format `XXXXX-XXXXX-XXXXX-XXXXX-XXXXX`, where X can be any character from A-Z or 0-9. Keys are unique within each team. You can either:
 
-- Generate the key automatically through Lukittu
-- Manually specify a custom key
+-   Generate the key automatically through Lukittu
+-   Manually specify a custom key
 
 ### Expiration Types
 
@@ -24,48 +24,58 @@ Suitable for lifetime access products. The license will never expire once issued
 
 Set a specific expiration date for the license. The expiration date is timezone-aware and will be set according to your dashboard's timezone.
 
-Example: Setting an expiration date of 12/12/2022 will make the license invalid after that date.
+<Info>
+    Example: Setting an expiration date of 12/12/2022 will make the license
+    invalid after that date.
+</Info>
 
 #### 3. Duration
 
 Specify a time period after which the license expires. You can choose when the expiration countdown begins:
 
-- **Creation**: Timer starts when the license is created
-- **Activation**: Timer starts upon first license activation, generating an expiration date based on the activation date
+-   **Creation**: Timer starts when the license is created
+-   **Activation**: Timer starts upon first license activation, generating an expiration date based on the activation date
 
-### IP Limitations
+### Access Limitations
+
+#### IP Limitations
 
 Restrict the number of unique IP addresses that can use the license. Configure the IP limit period in team settings:
 
-- **Day**: Maximum unique IPs per day
-- **Week**: Maximum unique IPs per week
-- **Month**: Maximum unique IPs per month
+-   **Day**: Maximum unique IPs per day
+-   **Week**: Maximum unique IPs per week
+-   **Month**: Maximum unique IPs per month
 
-### Concurrent Users
+#### Concurrent Users
 
 Control how many users can simultaneously use the license. This feature:
 
-- Tracks usage through heartbeat signals
-- Uses the "Device timeout" setting from team settings to determine when a device becomes inactive
-- Marks devices as inactive if no heartbeat is received within the timeout period
+-   Tracks usage through heartbeat signals
+-   Uses the "Device timeout" setting from team settings to determine when a device becomes inactive
+-   Marks devices as inactive if no heartbeat is received within the timeout period
 
-> ⚠️ **Important**: Dockerized environments may have issues with concurrent user limits due to difficulties in generating unique device identifiers.
+<Warning>
+    **Important**: Dockerized environments may have issues with concurrent user
+    limits due to difficulties in generating unique device identifiers.
+</Warning>
 
-### Product Assignment
+### Assignment Options
+
+#### Product Assignment
 
 Restrict license usage to specific products in your portfolio. This is useful when:
 
-- Managing multiple products
-- Creating product-specific licenses
-- Implementing tiered access
+-   Managing multiple products
+-   Creating product-specific licenses
+-   Implementing tiered access
 
-### Customer Assignment
+#### Customer Assignment
 
 Control which customers can use the license:
 
-- Assign multiple customers to a single license
-- Enable shared license functionality
-- Requires customer ID in authentication requests
+-   Assign multiple customers to a single license
+-   Enable shared license functionality
+-   Requires customer ID in authentication requests
 
 ### License Status
 
@@ -73,54 +83,58 @@ Licenses can have one of five statuses: ACTIVE, INACTIVE, EXPIRING, EXPIRED, or 
 
 #### Last Active Date
 
-- Tracks when the license was last used
-- Initially set to license creation date
-- Updates with each license authentication request
-- Used to determine inactivity status
+-   Tracks when the license was last used
+-   Initially set to license creation date
+-   Updates with each license authentication request
+-   Used to determine inactivity status
 
 #### Status Types
 
-1. **ACTIVE**
+##### 1. ACTIVE
 
-   - Default status for valid, recently used licenses
-   - License is within expiration period
-   - Has been used within last 30 days
+-   Default status for valid, recently used licenses
+-   License is within expiration period
+-   Has been used within last 30 days
 
-2. **INACTIVE**
+##### 2. INACTIVE
 
-   - No license activity for over 30 days
-   - License is still valid but unused
-   - Applies to all license types
+-   No license activity for over 30 days
+-   License is still valid but unused
+-   Applies to all license types
 
-3. **EXPIRING**
+##### 3. EXPIRING
 
-   - License will expire within 30 days
-   - Only applies to DATE and DURATION type licenses
-   - License is still valid and usable
+-   License will expire within 30 days
+-   Only applies to DATE and DURATION type licenses
+-   License is still valid and usable
 
-4. **EXPIRED**
+##### 4. EXPIRED
 
-   - Past the expiration date
-   - Only applies to DATE and DURATION type licenses
-   - License is no longer valid
+-   Past the expiration date
+-   Only applies to DATE and DURATION type licenses
+-   License is no longer valid
 
-5. **SUSPENDED**
-   - Manually suspended by administrator
-   - Overrides all other status checks
-   - License is temporarily invalid
+##### 5. SUSPENDED
 
-> 📝 **Note**: A license is considered inactive if there have been no authentication requests for over 30 days, regardless of its expiration status.
+-   Manually suspended by administrator
+-   Overrides all other status checks
+-   License is temporarily invalid
+
+<Note>
+    A license is considered inactive if there have been no authentication
+    requests for over 30 days, regardless of its expiration status.
+</Note>
 
 #### Suspension
 
-- Temporarily disable licenses using the suspension feature
-- Suspended licenses are considered invalid
-- Useful for temporary access restriction
+-   Temporarily disable licenses using the suspension feature
+-   Suspended licenses are considered invalid
+-   Useful for temporary access restriction
 
 ### Metadata
 
 Store additional license information using metadata:
 
-- Custom fields for extra license details
-- Used by integrations
-- Flexible data storage for specific use cases
+-   Custom fields for extra license details
+-   Used by integrations
+-   Flexible data storage for specific use cases

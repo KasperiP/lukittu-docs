@@ -7,9 +7,9 @@ description: "A product in Lukittu represents a software application that you wa
 
 When implementing Lukittu in your application, you should specify which Lukittu product the software represents. While optional, this is recommended for:
 
-- Better tracking capabilities
-- Improved access management
-- Enhanced usage analytics
+-   Better tracking capabilities
+-   Improved access management
+-   Enhanced usage analytics
 
 Product identification is done using a UUID v4 product ID in your implementation.
 
@@ -19,9 +19,9 @@ Product identification is done using a UUID v4 product ID in your implementation
 
 Products can maintain multiple releases to track different software versions. This feature provides:
 
-- Version tracking across your user base
-- Integration with remote classloader functionality
-- Historical version management
+-   Version tracking across your user base
+-   Integration with remote classloader functionality
+-   Historical version management
 
 ### Release States
 
@@ -29,59 +29,64 @@ Products can maintain multiple releases to track different software versions. Th
 
 The standard state for active releases:
 
-- Available to all licenses with product access
-- Can be tagged as "latest" for fallback versioning
-- Represents production-ready software
+-   Available to all licenses with product access
+-   Can be tagged as "latest" for fallback versioning
+-   Represents production-ready software
 
 #### 2. Draft
 
 Preparation state for upcoming releases:
 
-- Created but not yet publicly available
-- Allows preparation of release materials
-- Can be published when ready for deployment
+-   Created but not yet publicly available
+-   Allows preparation of release materials
+-   Can be published when ready for deployment
 
 #### 3. Archived
 
 Historical state for inactive releases:
 
-- No longer available for use
-- Maintained for record-keeping
-- Useful for audit and tracking purposes
+-   No longer available for use
+-   Maintained for record-keeping
+-   Useful for audit and tracking purposes
 
 #### 4. Deprecated
 
 Warning state for sunset releases:
 
-- Remains functional and accessible
-- Includes deprecation notifications
-- Encourages users to upgrade
-- Helps manage version transitions
+-   Remains functional and accessible
+-   Includes deprecation notifications
+-   Encourages users to upgrade
+-   Helps manage version transitions
 
 ### Latest Release Tag
 
 Published releases can receive the "latest" designation:
 
-- Only one release can be "latest" at a time
-- Serves as the default version for unspecified requests
-- Simplifies version management
+-   Only one release can be "latest" at a time
+-   Serves as the default version for unspecified requests
+-   Simplifies version management
 
 ### Release Restrictions
 
 Control release accessibility through license-specific restrictions:
 
-- Enable controlled beta testing
-- Manage gradual version rollouts
-- Test with select users before wide release
-- Create exclusive access for specific licenses
+-   Enable controlled beta testing
+-   Manage gradual version rollouts
+-   Test with select users before wide release
+-   Create exclusive access for specific licenses
 
 ## Best Practices
 
 ### Version Naming
 
-We recommend following [semver](https://semver.org/) (Semantic Versioning) conventions:
+<Tip>
+    We recommend following [semver](https://semver.org/) (Semantic Versioning)
+    conventions.
+</Tip>
 
-- Provides clear version hierarchy
-- Communicates change significance
-- Maintains industry-standard versioning
-- Helps users understand update importance
+Semantic versioning:
+
+-   Provides clear version hierarchy
+-   Communicates change significance
+-   Maintains industry-standard versioning
+-   Helps users understand update importance
