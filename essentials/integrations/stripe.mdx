@@ -1,56 +1,81 @@
 ---
-title: "Stripe integration"
+title: "Stripe Integration"
 description: "Lukittu supports Stripe by automatically delivering licenses to customers via email upon purchase."
 ---
 
-## Implementation steps
+# Stripe Integration
+
+<Note>
+    Lukittu automatically delivers licenses to your customers via email when
+    they purchase through Stripe.
+</Note>
+
+## Implementation Overview
 
 Follow these steps to configure licensing for the products you sell using Stripe:
 
-1. Create a product in the Lukittu platform.
+<Steps>
+    <Step title="Create a product in Lukittu">
+        First, set up your product in the Lukittu platform.
+    </Step>
+    <Step title="Create the same product in Stripe">
+        Configure an identical product in your Stripe dashboard.
+    </Step>
+    <Step title="Add custom metadata attributes">
+        Connect your Stripe product to Lukittu using metadata fields.
+    </Step>
+    <Step title="Set up a webhook endpoint">
+        Configure Stripe to notify Lukittu of purchase events.
+    </Step>
+    <Step title="Add API credentials to Lukittu">
+        Complete the integration by adding your Stripe API key and webhook
+        secret.
+    </Step>
+</Steps>
 
-2. Create the same product in the Stripe dashboard.
+## Creating a Product in Lukittu
 
-3. Add custom attributes to the product's metadata.
-
-4. Set up a webhook endpoint.
-
-5. Add the restricted API key and webhook secret from Stripe to your Lukittu platform Stripe integration.
-
-## Creating a Product in the Lukittu Platform
-
-1. Navigate to the **Products** page and click **Add Product**.
-
-2. Enter a name for your product and click **Save**.
-
-3. Open the page for the newly created product and copy the product's **ID**.
-
-Here’s an improved version of your documentation steps, formatted in Markdown for clarity:
+<Steps>
+    <Step title="Navigate to Products">
+        Go to the **Products** page in your Lukittu dashboard and click **Add
+        Product**.
+    </Step>
+    <Step title="Add product details">
+        Enter a name for your product and click **Save**.
+    </Step>
+    <Step title="Get the product ID">
+        Open the page for your newly created product and copy the product's
+        **ID**.
+        <Tip>
+            You'll need this ID when configuring your Stripe product's metadata.
+        </Tip>
+    </Step>
+</Steps>
 
 ## Creating a Stripe Product for Lukittu
 
 Follow these steps to create and configure a Stripe product for use with Lukittu:
 
-### Steps to Create a Stripe Product
-
-1. **Access the Stripe Dashboard**
-   Navigate to the **Product Catalog** section on your Stripe dashboard.
-
-2. **Add a Product**
-
-    - Click the **Add a Product** button.
-
-    - Enter a product name.
-
-        - **Tip:** Use the same name as your Lukittu product for consistency and easier identification.
-
-3. **Locate Metadata Options**
-
-    - Depending on your device, you should see a **More Options** dropdown.
-
-    - Open the dropdown and locate the **Metadata** section.
-
-        - **Note:** Metadata allows you to add custom data to your Stripe product. Lukittu uses this metadata to map Stripe products to its backend.
+<Steps>
+    <Step title="Access the Stripe Dashboard">
+        Navigate to the **Product Catalog** section on your Stripe dashboard.
+    </Step>
+    <Step title="Add a Product">
+        Click the **Add a Product** button. Enter a product name.
+        <Tip>
+            Use the same name as your Lukittu product for consistency and easier
+            identification.
+        </Tip>
+    </Step>
+    <Step title="Locate Metadata Options">
+        Find the **More Options** dropdown. Open the dropdown and locate the
+        **Metadata** section.
+        <Note>
+            Metadata allows you to add custom data to your Stripe product.
+            Lukittu uses this metadata to map Stripe products to its backend.
+        </Note>
+    </Step>
+</Steps>
 
 ### Required Metadata for Lukittu
 
@@ -73,119 +98,107 @@ The following metadata keys are optional and can be added as needed:
 
 ### Notes on Expiration and Subscriptions
 
--   **For Subscription-Based Products**
-    Do not use any expiration-related metadata (`expiration_days`, `expiration_start`).
+<Accordion title="Subscription-Based Products">
+  Do not use any expiration-related metadata (`expiration_days`, `expiration_start`).
 
-    -   **Why:** Lukittu automatically handles license expiration for subscription-based products.
+Lukittu automatically handles license expiration for subscription-based products. If a payment is not received, the license will expire automatically at the end of the billing period.
 
-    -   If a payment is not received, the license will expire automatically at the end of the billing period.
+</Accordion>
 
--   **For One-Time Payment Products**
-    Expiration metadata can be used as outlined above to define license durations.
+<Accordion title="One-Time Payment Products">
+    Expiration metadata can be used as outlined above to define license
+    durations.
+</Accordion>
 
 ## Adding a Stripe Webhook
 
-Follow these steps to set up a webhook for Lukittu in Stripe:
-
-### Steps to Add a Webhook
-
-1. **Search for Webhooks**
-
-    - Use the search bar on your Stripe dashboard to search for **Webhooks**.
-
-2. **Create a New Event Destination**
-
-    - Click **Add endpoint** (or similar option) to create a new webhook.
-    - Set the **Endpoint URL** to:
+<Steps>
+    <Step title="Search for Webhooks">
+        Use the search bar on your Stripe dashboard to search for **Webhooks**.
+    </Step>
+    <Step title="Create a New Event Destination">
+        Click **Add endpoint** to create a new webhook. Set the **Endpoint
+        URL** to: 
         ```
         https://app.lukittu.com/api/v1/integrations/stripe?teamId=YOUR_TEAM_ID
         ```
         Replace `YOUR_TEAM_ID` with your Lukittu team's ID.
-        - **How to Find Your Team ID:**
-            - Go to the Lukittu dashboard.
-            - Navigate to **Team** → **Settings** to locate your team ID.
-
-3. **Configure Webhook Events**
-
-    - Select **Listen to events on your account**.
-    - Add the following events to the webhook:
+        <Info>
+            To find your Team ID, go to the Lukittu dashboard and navigate to
+            **Team** → **Settings**.
+        </Info>
+    </Step>
+    <Step title="Configure Webhook Events">
+        Select **Listen to events on your account**. Add the following
+        events to the webhook:
         - `invoice.paid`
         - `customer.subscription.deleted`
         - `customer.subscription.created`
         - `customer.subscription.updated`
         - `checkout.session.completed`
+    </Step>
+    <Step title="Save the Webhook">
+        After configuring the events, save the newly created webhook.
+    </Step>
+    <Step title="Retrieve the Webhook Signing Secret">
+        Once saved, Stripe will generate a **Signing Secret** for the webhook.
+        <Note>
+            The signing secret starts with `whsec_`. You will need this signing
+            secret to complete the Stripe integration in Lukittu.
+        </Note>
+    </Step>
+</Steps>
 
-4. **Save the Webhook**
+## Adding a Restricted API Key to Lukittu
 
-    - After configuring the events, save the newly created webhook.
-
-5. **Retrieve the Webhook Signing Secret**
-    - Once saved, Stripe will generate a **Signing Secret** for the webhook.
-        - The signing secret starts with `whsec_`.
-    - **Note:** You will need this signing secret to complete the Stripe integration in Lukittu.
-
-## Adding a Restricted API Key to Your Lukittu Platform Account
-
-Follow these steps to create and add a restricted API key from Stripe to your Lukittu account:
-
-### Steps to Create a Restricted API Key
-
-1. **Navigate to API Keys in Stripe**
-
-    - Go to the **API Keys** section on your Stripe dashboard.
-
-2. **Create a New Restricted Key**
-
-    - Click **Create Restricted Key**.
-    - In the dialog:
+<Steps>
+    <Step title="Navigate to API Keys in Stripe">
+        Go to the **API Keys** section on your Stripe dashboard.
+    </Step>
+    <Step title="Create a New Restricted Key">
+        Click **Create Restricted Key**. In the dialog:
         - **Purpose:** Select _"Providing this key to another website."_
         - **Name:** Enter a name for the key (e.g., `Lukittu`).
-        - **URL:** Set the URL to:
-            ```
-            https://app.lukittu.com
-            ```
+        - **URL:** Set the URL to: `https://app.lukittu.com`
+    </Step>
+    <Step title="Create and Copy the Key">
+        Click **Create Restricted Key**. Copy the generated key.
+    </Step>
+    <Step title="Add the Key to Lukittu">
+        Log in to your Lukittu dashboard. Go to the **Stripe Integration**
+        section. Paste the copied API key into the appropriate field.
+    </Step>
+</Steps>
 
-3. **Create and Copy the Key**
+## Finishing the Integration
 
-    - Click **Create Restricted Key**.
-    - Copy the generated key.
+<Steps>
+    <Step title="Navigate to the Integrations Section">
+        Log in to your Lukittu dashboard and go to **Integrations** → **Stripe
+        Integration**.
+    </Step>
+    <Step title="Enter API Key and Webhook Signing Secret">
+        Provide the **restricted API key** you created earlier. Enter the
+        **webhook signing secret** (starting with `whsec_`) from the Stripe
+        webhook configuration.
+    </Step>
+    <Step title="Verify the Integration">
+        If everything was set up correctly, your Stripe integration should now
+        be fully functional. You can start generating payment links for your
+        Stripe products and selling your software!
+    </Step>
+</Steps>
 
-4. **Add the Key to Lukittu**
-    - Log in to your Lukittu dashboard.
-    - Go to the **Stripe Integration** section.
-    - Paste the copied API key into the appropriate field to complete the integration.
-      Here’s an improved and polished version of your instructions:
+## Testing Your Integration
 
-## Finishing Touches
-
-With your restricted API key and webhook signing secret ready, follow these final steps to complete your Stripe integration:
-
-### Setting Up Stripe Integration in Lukittu
-
-1. **Navigate to the Integrations Section**
-
-    - Log in to your Lukittu dashboard.
-    - Go to **Integrations** and select **Stripe Integration**.
-
-2. **Enter API Key and Webhook Signing Secret**
-
-    - Provide the **restricted API key** you created earlier.
-    - Enter the **webhook signing secret** (starting with `whsec_`) from the Stripe webhook configuration.
-
-3. **Verify the Integration**
-    - If everything was set up correctly, your Stripe integration should now be fully functional.
-    - You can start generating payment links for your Stripe products and selling your software!
-
-## Testing Your Integration (Optional but Recommended)
-
--   **Switch to Test Mode in Stripe**
-
-    -   Enable **Test Mode** on your Stripe dashboard.
-    -   Repeat the steps to set up API keys, webhooks, and products in this isolated environment.
+<Accordion title="Optional Testing Procedure (Recommended)">
+  - **Switch to Test Mode in Stripe**
+    - Enable **Test Mode** on your Stripe dashboard.
+    - Repeat the steps to set up API keys, webhooks, and products in this isolated environment.
 
 -   **Test Transactions**
 
     -   Use Stripe's test credit cards to simulate payments and validate your integration.
 
--   **Transition to Production**
-    -   Once testing is complete and successful, replicate the setup in **Live Mode** to start selling.
+-   **Transition to Production** - Once testing is complete and successful, replicate the setup in **Live Mode** to start selling.
+</Accordion>
