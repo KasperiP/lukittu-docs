@@ -67,7 +67,8 @@
                     "group": "Integrations",
                     "pages": [
                         "essentials/integrations/stripe",
-                        "essentials/integrations/built-by-bit"
+                        "essentials/integrations/built-by-bit",
+                        "essentials/integrations/discord"
                     ]
                 }
             ]
