@@ -58,20 +58,24 @@
             "pages": ["introduction"]
         },
         {
-            "group": "Essentials",
+            "group": "Platform",
             "pages": [
-                "essentials/products",
-                "essentials/licenses",
-                "essentials/settings",
-                {
-                    "group": "Integrations",
-                    "pages": [
-                        "essentials/integrations/stripe",
-                        "essentials/integrations/built-by-bit",
-                        "essentials/integrations/discord"
-                    ]
-                }
+                "platform/products",
+                "platform/licenses",
+                "platform/settings"
             ]
+        },
+        {
+            "group": "Integrations",
+            "pages": [
+                "integrations/stripe",
+                "integrations/built-by-bit",
+                "integrations/discord"
+            ]
+        },
+        {
+            "group": "Hosting",
+            "pages": ["hosting/self-hosting", "hosting/managed-hosting"]
         },
         {
             "group": "Security",

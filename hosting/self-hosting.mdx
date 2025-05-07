@@ -1,0 +1,46 @@
+---
+title: "Self-hosting Lukittu"
+description: "Information about self-hosting options and considerations for the Lukittu platform"
+---
+
+# Self-hosting Lukittu
+
+## Current Status
+
+As of May 7, 2025, Lukittu does not provide any official self-hosting guides or support.
+
+## Why No Self-hosting?
+
+Lukittu was originally designed as a SaaS solution, not as a self-hosted, single-tenant application. The platform makes several architectural assumptions:
+
+-   **Multi-tenant environment** where anyone can register
+-   Users can create their own teams
+-   Shared database and infrastructure
+
+## Third-Party Service Dependencies
+
+Lukittu uses third-party services that are tightly coupled with the application code:
+
+-   Sentry for error monitoring
+-   Stripe for subscription management
+-   Proxy/CDN (Cloudflare) configuration
+-   Other external services
+
+These integrations weren't designed to be optional or easily replaceable in a self-hosted scenario.
+
+## Self-hosting Considerations
+
+Self-hosting Lukittu is **not recommended** unless you have a strong understanding of its architecture and environment and you are aware of the drawbacks!
+
+### Known Limitations
+
+-   No support for single-tenant usage
+-   No official documentation for self-hosting
+-   Platform assumptions may lead to breaking changes in self-hosted setups
+-   No dedicated support for self-hosted instances
+
+## Summary
+
+The Lukittu platform was designed as a SaaS solution with multi-tenant architecture. While technically possible, self-hosting is not officially supported and comes with significant limitations and challenges. Consider these factors carefully before attempting to self-host Lukittu.
+
+If you need an open-source, single-tenant licensing system today, there are excellent alternatives available—such as [Keygen](https://github.com/keygen-sh/keygen-api?tab=readme-ov-file#self-hosting-with-keygen-ce).
