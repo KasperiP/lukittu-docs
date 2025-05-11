@@ -66,6 +66,89 @@ Published releases can receive the "latest" designation:
 -   Serves as the default version for unspecified requests
 -   Simplifies version management
 
+### Release Branching
+
+Lukittu supports release branching to manage multiple release streams for a single product. This feature is particularly useful when:
+
+-   Your product has different artifacts for different platforms
+-   You maintain separate release cycles for various environments
+-   You need to distribute platform-specific versions
+
+#### How Branching Works
+
+Without branches (default behavior):
+
+-   A product has a single linear release timeline
+-   Only one release can be designated as "latest"
+-   Versioning follows a standard progression (e.g., 1.0.0 → 1.0.1)
+
+With branches:
+
+-   Each branch maintains its own release timeline
+-   Every branch can have its own "latest" release
+-   Versioning is branch-specific
+-   Verify requests can target a specific branch's latest or a specific version
+
+#### Branch Use Case
+
+This is especially useful for classloader users who distribute Java JAR files to different platforms. Each platform can have its own branch with platform-specific releases while maintaining consistent versioning schemes.
+
+```mermaid
+graph TD
+    %% Main Product Node
+    Product[Product]
+
+    %% Default Case Section
+    subgraph "Default Release Structure"
+        Product --> Release1.0.0[Release 1.0.0]
+        Product --> Release1.0.1[Release 1.0.1]
+        Release1.0.1 -->|Latest Release| Product
+    end
+
+    %% Branching Case Section
+    subgraph "Branching Release Structure"
+        ProductB[Product]
+        ProductB --> Branch1[Branch 1]
+        ProductB --> Branch2[Branch 2]
+        ProductB --> DirectRelease[Branchless Releases]
+
+        Branch1 --> B1R1[Release 1.0.0]
+        Branch1 --> B1R2[Release 1.0.1]
+        B1R2 -->|Latest Branch 1 Release| Branch1
+
+        Branch2 --> B2R1[Release 1.0.0]
+        Branch2 --> B2R2[Release 1.0.1]
+        Branch2 --> B2R3[Release 1.0.2]
+        B2R3 -->|Latest Branch 2 Release| Branch2
+
+        DirectRelease --> DR1[Release 2.0.0]
+        DirectRelease --> DR2[Release 2.0.1]
+        DR2 -->|Latest Product Release| ProductB
+    end
+
+    %% Styling
+    classDef product fill:#f9f,stroke:#333,stroke-width:2px
+    classDef branch fill:#bbf,stroke:#333,stroke-width:1px
+    classDef release fill:#bfb,stroke:#333,stroke-width:1px
+    classDef latest fill:#fbb,stroke:#333,stroke-width:2px,stroke-dasharray: 5 5
+
+    class Product,ProductB product
+    class Branch1,Branch2,DirectRelease branch
+    class Release1.0.0,Release1.0.1,B1R1,B1R2,B2R1,B2R2,B2R3,DR1,DR2 release
+```
+
+#### When to Use Branching
+
+Consider using release branching when:
+
+-   You need to maintain separate builds for different platforms
+-   Your application has different feature sets across deployment targets
+
+<Tip>
+    When implementing verification logic, remember to specify the branch name
+    when targeting branch-specific releases.
+</Tip>
+
 ### Release Restrictions
 
 Control release accessibility through license-specific restrictions:
