@@ -70,6 +70,7 @@
             "pages": [
                 "integrations/stripe",
                 "integrations/built-by-bit",
+                "integrations/polymart",
                 "integrations/discord"
             ]
         },
