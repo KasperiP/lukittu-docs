@@ -62,6 +62,7 @@
             "pages": [
                 "platform/products",
                 "platform/licenses",
+                "platform/webhooks",
                 "platform/settings"
             ]
         },
