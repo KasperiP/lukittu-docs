@@ -152,12 +152,12 @@ The following query parameters can be added to your webhook URL to customize lic
 | **Parameter**     | **Type**                   | **Description**                                                                                  |
 | ----------------- | -------------------------- | :----------------------------------------------------------------------------------------------- |
 | `ipLimit`         | Number                     | Maximum number of IPs allowed (must be a positive integer).                                      |
-| `seats`           | Number                     | Number of concurrent users allowed (must be at least 1).                                         |
+| `hwidLimit`       | Number                     | Number of concurrent users allowed (must be at least 1).                                         |
 | `expirationDays`  | Number                     | Number of days until the license expires (must be at least 1).                                   |
 | `expirationStart` | `ACTIVATION` or `CREATION` | Determines when expiration starts (default: `CREATION`). Applicable if `expirationDays` is used. |
 
 Example URL with custom parameters:
 
 ```
-https://app.lukittu.com/api/v1/integrations/polymart?teamId=YOUR_TEAM_ID&productId=YOUR_PRODUCT_ID&ipLimit=2&seats=1&expirationDays=30&expirationStart=CREATION
+https://app.lukittu.com/api/v1/integrations/polymart?teamId=YOUR_TEAM_ID&productId=YOUR_PRODUCT_ID&ipLimit=2&hwidLimit=1&expirationDays=30&expirationStart=CREATION
 ```

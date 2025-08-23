@@ -42,9 +42,7 @@ Follow these steps to configure licensing for the products you sell using BuiltB
     <Step title="Get the product ID">
         Open the page for your newly created product and copy the product's
         **ID**.
-        <Tip>
-            You'll need this ID when configuring your BuiltByBit webhook.
-        </Tip>
+        <Tip>You'll need this ID when configuring your BuiltByBit webhook.</Tip>
     </Step>
 </Steps>
 
@@ -54,7 +52,8 @@ Before setting up webhooks on BuiltByBit, you need to enable the integration in 
 
 <Steps>
     <Step title="Access Integrations Settings">
-        Log in to your Lukittu dashboard and navigate to the **Integrations** tab.
+        Log in to your Lukittu dashboard and navigate to the **Integrations**
+        tab.
     </Step>
     <Step title="Enable the Integration">
         Locate the BuiltByBit integration option and toggle it to **Active**.
@@ -126,7 +125,7 @@ Follow these steps to configure the purchase webhook that will automatically iss
             "lukittuData": {
                 "productId": "YOUR_LUKITTU_PRODUCT_ID",
                 "ipLimit": null,
-                "seats": null,
+                "hwidLimit": null,
                 "expirationDays": null,
                 "expirationStart": null
             }
@@ -136,7 +135,7 @@ Follow these steps to configure the purchase webhook that will automatically iss
     <Step title="Customize Webhook Data">
         Replace `YOUR_BUILT_BY_BIT_SECRET` with the integration secret from your Lukittu dashboard. Replace `YOUR_LUKITTU_PRODUCT_ID` with the product ID you copied earlier.
         <Note>
-            The fields `ipLimit`, `seats`, `expirationDays`, and `expirationStart` are optional configuration parameters. Leave them as `null` if you don't need them, or set appropriate values based on your licensing requirements.
+            The fields `ipLimit`, `hwidLimit`, `expirationDays`, and `expirationStart` are optional configuration parameters. Leave them as `null` if you don't need them, or set appropriate values based on your licensing requirements.
         </Note>
     </Step>
     <Step title="Save the Webhook">
@@ -148,12 +147,12 @@ Follow these steps to configure the purchase webhook that will automatically iss
 
 The following parameters can be customized in the webhook JSON:
 
-| **Key**            | **Type**                   | **Description**                                                                                   |
-| ------------------ | -------------------------- | :------------------------------------------------------------------------------------------------ |
-| `ipLimit`          | Number                     | Maximum number of IPs allowed.                                                                    |
-| `seats`            | Number                     | Number of concurrent users allowed.                                                               |
-| `expirationDays`   | Number                     | Number of days until the license expires.                                                         |
-| `expirationStart`  | `ACTIVATION` or `CREATION` | Determines when expiration starts (default: `CREATION`). Applicable if `expirationDays` is used.  |
+| **Key**           | **Type**                   | **Description**                                                                                  |
+| ----------------- | -------------------------- | :----------------------------------------------------------------------------------------------- |
+| `ipLimit`         | Number                     | Maximum number of IPs allowed.                                                                   |
+| `hwidLimit`       | Number                     | Number of concurrent users allowed.                                                              |
+| `expirationDays`  | Number                     | Number of days until the license expires.                                                        |
+| `expirationStart` | `ACTIVATION` or `CREATION` | Determines when expiration starts (default: `CREATION`). Applicable if `expirationDays` is used. |
 
 ## Setting Up License Placeholder
 
@@ -161,20 +160,23 @@ To enable automatic license delivery to your customers, you need to create a lic
 
 <Steps>
     <Step title="Access BuiltByBit Placeholders">
-        Go to the [BuiltByBit placeholders page](https://builtbybit.com/placeholders/) and click the **Create placeholder** button.
+        Go to the [BuiltByBit placeholders
+        page](https://builtbybit.com/placeholders/) and click the **Create
+        placeholder** button.
     </Step>
     <Step title="Configure Placeholder Settings">
-        Enter a descriptive placeholder name (e.g., `%%__LUKITTU_LICENSE_KEY__%%`). Select **External license key** from the Type dropdown.
+        Enter a descriptive placeholder name (e.g.,
+        `%%__LUKITTU_LICENSE_KEY__%%`). Select **External license key** from the
+        Type dropdown.
     </Step>
     <Step title="Set Placeholder URL">
-        Enter the following URL:
-        ```
+        Enter the following URL: ```
         https://app.lukittu.com/api/v1/integrations/built-by-bit/placeholder?teamId=YOUR_TEAM_ID
-        ```
-        Replace `YOUR_TEAM_ID` with your Lukittu team's ID.
+        ``` Replace `YOUR_TEAM_ID` with your Lukittu team's ID.
     </Step>
     <Step title="Set Secret">
-        Enter the BuiltByBit integration secret you created on your Lukittu dashboard.
+        Enter the BuiltByBit integration secret you created on your Lukittu
+        dashboard.
     </Step>
     <Step title="Save the Placeholder">
         Click the **Save** button to create your license placeholder.
@@ -184,12 +186,10 @@ To enable automatic license delivery to your customers, you need to create a lic
 ## Verifying the Integration
 
 <Accordion title="Testing Your Integration">
-  - **Make a Test Purchase**
-    - Make a test purchase of your resource on BuiltByBit. You can use a coupon to get it for free!
-    
-  - **Verify License Generation**
-    - Check that a license is automatically generated in your Lukittu dashboard after the purchase.
-    
-  - **Confirm License Delivery**
-    - Verify that the license key is correctly replacing the corresponding placeholder during download.
+    - **Make a Test Purchase** - Make a test purchase of your resource on
+    BuiltByBit. You can use a coupon to get it for free! - **Verify License
+    Generation** - Check that a license is automatically generated in your
+    Lukittu dashboard after the purchase. - **Confirm License Delivery** -
+    Verify that the license key is correctly replacing the corresponding
+    placeholder during download.
 </Accordion>

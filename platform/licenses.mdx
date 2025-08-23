@@ -51,12 +51,12 @@ Restrict the number of unique IP addresses that can use the license. Configure t
 Control how many users can simultaneously use the license. This feature:
 
 -   Tracks usage through heartbeat signals
--   Uses the "Device timeout" setting from team settings to determine when a device becomes inactive
+-   Uses the "HWID timeout" setting from team settings to determine when a device becomes inactive
 -   Marks devices as inactive if no heartbeat is received within the timeout period
 
 <Warning>
     **Important**: Dockerized environments may have issues with concurrent user
-    limits due to difficulties in generating unique device identifiers.
+    limits due to difficulties in generating unique hardware identifiers.
 </Warning>
 
 ### Assignment Options

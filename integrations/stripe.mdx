@@ -92,7 +92,7 @@ The following metadata keys are optional and can be added as needed:
 | **Key**            | **Type**                   | **Description**                                                                                   |
 | ------------------ | -------------------------- | :------------------------------------------------------------------------------------------------ |
 | `ip_limit`         | Number                     | Maximum number of IPs allowed.                                                                    |
-| `seats`            | Number                     | Number of concurrent users allowed.                                                               |
+| `hwidLimit`        | Number                     | Number of concurrent users allowed.                                                               |
 | `expiration_days`  | Number                     | Number of days until the license expires.                                                         |
 | `expiration_start` | `ACTIVATION` or `CREATION` | Determines when expiration starts (default: `CREATION`). Applicable if `expiration_days` is used. |
 
@@ -117,25 +117,20 @@ Lukittu automatically handles license expiration for subscription-based products
         Use the search bar on your Stripe dashboard to search for **Webhooks**.
     </Step>
     <Step title="Create a New Event Destination">
-        Click **Add endpoint** to create a new webhook. Set the **Endpoint
-        URL** to: 
-        ```
+        Click **Add endpoint** to create a new webhook. Set the **Endpoint URL**
+        to: ```
         https://app.lukittu.com/api/v1/integrations/stripe?teamId=YOUR_TEAM_ID
-        ```
-        Replace `YOUR_TEAM_ID` with your Lukittu team's ID.
+        ``` Replace `YOUR_TEAM_ID` with your Lukittu team's ID.
         <Info>
             To find your Team ID, go to the Lukittu dashboard and navigate to
             **Team** → **Settings**.
         </Info>
     </Step>
     <Step title="Configure Webhook Events">
-        Select **Listen to events on your account**. Add the following
-        events to the webhook:
-        - `invoice.paid`
-        - `customer.subscription.deleted`
-        - `customer.subscription.created`
-        - `customer.subscription.updated`
-        - `checkout.session.completed`
+        Select **Listen to events on your account**. Add the following events to
+        the webhook: - `invoice.paid` - `customer.subscription.deleted` -
+        `customer.subscription.created` - `customer.subscription.updated` -
+        `checkout.session.completed`
     </Step>
     <Step title="Save the Webhook">
         After configuring the events, save the newly created webhook.
@@ -156,10 +151,10 @@ Lukittu automatically handles license expiration for subscription-based products
         Go to the **API Keys** section on your Stripe dashboard.
     </Step>
     <Step title="Create a New Restricted Key">
-        Click **Create Restricted Key**. In the dialog:
-        - **Purpose:** Select _"Providing this key to another website."_
-        - **Name:** Enter a name for the key (e.g., `Lukittu`).
-        - **URL:** Set the URL to: `https://app.lukittu.com`
+        Click **Create Restricted Key**. In the dialog: - **Purpose:** Select
+        _"Providing this key to another website."_ - **Name:** Enter a name for
+        the key (e.g., `Lukittu`). - **URL:** Set the URL to:
+        `https://app.lukittu.com`
     </Step>
     <Step title="Create and Copy the Key">
         Click **Create Restricted Key**. Copy the generated key.
@@ -201,4 +196,4 @@ Lukittu automatically handles license expiration for subscription-based products
     -   Use Stripe's test credit cards to simulate payments and validate your integration.
 
 -   **Transition to Production** - Once testing is complete and successful, replicate the setup in **Live Mode** to start selling.
-</Accordion>
+    </Accordion>
