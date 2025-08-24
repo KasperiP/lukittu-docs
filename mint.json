@@ -28,7 +28,8 @@
     "tabs": [
         {
             "name": "API Reference",
-            "url": "api-reference"
+            "url": "api-reference",
+            "openapi": "/api-reference/openapi.json"
         },
         {
             "name": "Examples",
@@ -94,25 +95,6 @@
         {
             "group": "Java",
             "pages": ["examples/java/simple", "examples/java/advanced"]
-        },
-        {
-            "group": "Client endpoints",
-            "pages": [
-                "api-reference/endpoint/client/verify",
-                "api-reference/endpoint/client/heartbeat",
-                "api-reference/endpoint/client/classloader"
-            ]
-        },
-        {
-            "group": "Dev endpoints",
-            "pages": [
-                "api-reference/endpoint/dev/licenses/GET",
-                "api-reference/endpoint/dev/licenses/POST",
-                "api-reference/endpoint/dev/licenses/id/[id]/GET",
-                "api-reference/endpoint/dev/licenses/id/[id]/DELETE",
-                "api-reference/endpoint/dev/licenses/[licenseKey]/GET",
-                "api-reference/endpoint/dev/licenses/[licenseKey]/DELETE"
-            ]
         }
     ],
     "footerSocials": {
