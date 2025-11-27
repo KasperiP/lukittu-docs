@@ -15,6 +15,7 @@ description: "Lukittu supports BuiltByBit by providing a fully automatic licensi
 Follow these steps to configure licensing for the products you sell using BuiltByBit:
 
 <Steps>
+
     <Step title="Create a product in Lukittu">
         First, set up your product in the Lukittu platform.
     </Step>
@@ -27,6 +28,7 @@ Follow these steps to configure licensing for the products you sell using BuiltB
     <Step title="Create a license placeholder">
         Set up automatic license delivery for your customers.
     </Step>
+
 </Steps>
 
 ## Creating a Product in Lukittu
@@ -37,6 +39,7 @@ Follow these steps to configure licensing for the products you sell using BuiltB
         Product**.
     </Step>
     <Step title="Add product details">
+
         Enter a name for your product and click **Save**.
     </Step>
     <Step title="Get the product ID">
@@ -44,6 +47,7 @@ Follow these steps to configure licensing for the products you sell using BuiltB
         **ID**.
         <Tip>You'll need this ID when configuring your BuiltByBit webhook.</Tip>
     </Step>
+
 </Steps>
 
 ## Enabling BuiltByBit Integration
@@ -182,6 +186,49 @@ To enable automatic license delivery to your customers, you need to create a lic
         Click the **Save** button to create your license placeholder.
     </Step>
 </Steps>
+
+## Manually Assigning BuiltByBit Licenses (Without a Purchase)
+
+In some cases, you may want to grant a BuiltByBit user access to one of your products even if they have not purchased it through BuiltByBit. Lukittu fully supports this by allowing you to manually attach the required BuiltByBit metadata to a license.
+
+When BuiltByBit processes a real purchase, it automatically sends the `BBB_USER_ID` and `BBB_RESOURCE_ID` values to Lukittu. If no purchase exists, you can add these values manually to any license you create.
+
+### How It Works
+
+To manually link a license to a BuiltByBit user and resource:
+
+1. Set the following metadata fields on the license:
+
+    - **`BBB_USER_ID`** — The BuiltByBit user ID
+    - **`BBB_RESOURCE_ID`** — The BuiltByBit resource ID
+
+2. Once these metadata fields are present, **Lukittu treats the license exactly as if it were generated through a BuiltByBit purchase**.
+   This means:
+
+    - The license will correctly inject into BuiltByBit placeholders
+    - All automation behaves normally
+
+### Finding the Required IDs
+
+You can obtain both IDs directly from BuiltByBit URLs.
+
+#### Resource ID
+
+This is the numeric portion at the end of the resource URL:
+Example:
+`https://builtbybit.com/resources/lukittu-license-system-open-source.62494`
+Resource ID: **62494**
+
+#### User ID
+
+This is the numeric portion at the end of a user profile URL:
+Example:
+`https://builtbybit.com/members/kasperi.540773`
+User ID: **540773**
+
+### Summary
+
+If you need to assign a license to a BuiltByBit user without a purchase, simply add `BBB_USER_ID` and `BBB_RESOURCE_ID` as metadata to the Lukittu license. Once added, the license will fully support BuiltByBit placeholder injection and behave identically to automatically issued licenses.
 
 ## Verifying the Integration
 
